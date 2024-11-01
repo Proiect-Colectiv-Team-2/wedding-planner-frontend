@@ -1,0 +1,36 @@
+/* Global CSS Variables */
+
+/* Color Variables */
+:root {
+    --background-color: #A2B3C3; /* Background color for the page */
+    --primary-color: #657D8E; /* Primary color for container */
+    --secondary-color: #CED7DC; /* Button background color */
+    --tertiary-color: #DB5375; /* Optional accent color */
+
+    /* Text Colors */
+    --text-color-primary: #FFFFFF; /* White text */
+    --text-color-secondary: #000000; /* Black text */
+    --text-color-muted: #7D7D7D; /* Gray text for muted elements */
+
+    /* Highlight and Hover Colors */
+    --highlight-color: #DB5375; /* Accent color, can also be used for highlights */
+    --hover-color-primary: #4F6A7B; /* Darker shade for primary on hover */
+    --hover-color-secondary: #B1C2C9; /* Darker shade for secondary on hover */
+    --disabled-color: #B3C0C7; /* Lighter shade of secondary color for disabled state */
+    --highlight-hover-color: #C44C6D; /* Slightly darker shade of highlight color for hover */
+
+    /* Input Background Color */
+    --input-background-color: #FFFFFF; /* White */
+
+    /* Danger Color */
+    --danger-color: #E74C3C; /* Bright red for error states */
+
+    /* Font Variables */
+    --font-primary: 'Inter', sans-serif; /* Primary font */
+    --font-secondary: 'Italianno', cursive; /* Secondary font */
+
+    /* Spacing Variables */
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+}

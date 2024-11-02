@@ -1,1 +1,115 @@
-/*
+/* Background for the entire page */
+.pageBackground {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-large);
+    font-family: var(--font-primary); /* Apply primary font */
+}
+
+/* Container for the Login Page */
+.loginContainer {
+    width: 400px; /* Set a fixed width */
+    margin: var(--spacing-large) auto;
+    padding: var(--spacing-large);
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    color: var(--text-color-primary);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-primary); /* Apply primary font */
+}
+
+/* Heading Styles */
+.heading {
+    margin-bottom: var(--spacing-medium);
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--text-color-primary);
+    font-family: var(--font-primary);
+    padding-bottom: var(--spacing-small);
+}
+
+/* Form Styles */
+.formGroup {
+    margin-bottom: var(--spacing-medium); /* Increase spacing between input fields */
+}
+
+.label {
+    display: block;
+    margin-bottom: var(--spacing-small);
+    font-weight: bold;
+    color: var(--text-color-primary);
+    font-family: var(--font-primary);
+}
+
+.input,
+.select {
+    width: 100%;
+    min-width: 0; /* Ensure inputs don't shrink or expand */
+    padding: var(--spacing-small);
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px;
+    font-family: var(--font-primary);
+    color: var(--text-color-secondary);
+    background-color: var(--input-background-color); /* Use input background variable */
+    transition: border-color 0.3s ease;
+}
+
+.input:focus,
+.select:focus {
+    border-color: var(--highlight-color);
+    outline: none;
+    box-shadow: 0 0 4px rgba(219, 83, 117, 0.3);
+}
+
+/* Button Styles */
+.button {
+    width: 100%;
+    padding: var(--spacing-medium);
+    margin-top: var(--spacing-medium);
+    background-color: var(--secondary-color);
+    color: var(--text-color-secondary);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+    background-color: var(--hover-color-secondary);
+    transform: translateY(-2px);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.button:disabled {
+    background-color: var(--disabled-color);
+    color: var(--text-color-muted);
+    cursor: not-allowed;
+}
+
+/* Add spacing between the Login button and the "Create New User" header */
+.loginButtonGroup {
+    margin-bottom: var(--spacing-large);
+}
+
+/* Highlighted Text */
+.highlight {
+    background-color: var(--highlight-color);
+    color: var(--text-color-primary);
+    padding: var(--spacing-small);
+    border-radius: 4px;
+}
+
+.highlight:hover {
+    background-color: var(--highlight-hover-color);
+}

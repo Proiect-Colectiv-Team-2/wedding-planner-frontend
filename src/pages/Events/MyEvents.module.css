@@ -1,1 +1,53 @@
-/*
+.container {
+    margin-left: 250px; /* Width of the Navbar */
+    padding: var(--spacing-large);
+    min-height: 100vh;
+    background-color: var(--background-color);
+    font-family: var(--font-primary); /* Apply primary font */
+}
+
+.title {
+    font-size: 28px;
+    margin-bottom: var(--spacing-medium);
+    color: var(--primary-color);
+    font-family: var(--font-secondary); /* Use secondary font for title */
+}
+
+.message {
+    font-size: 18px;
+    color: var(--text-color-secondary);
+    font-family: var(--font-primary);
+}
+
+.error {
+    font-size: 18px;
+    color: var(--danger-color);
+    font-family: var(--font-primary);
+}
+
+.eventList {
+    list-style: none;
+    padding: 0;
+}
+
+.eventItem {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--hover-color-secondary);
+    border-radius: 8px;
+    padding: var(--spacing-medium);
+    margin-bottom: var(--spacing-medium);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-primary);
+}
+
+.eventItem h2 {
+    margin-bottom: var(--spacing-small);
+    color: var(--primary-color);
+    font-family: var(--font-secondary); /* Use secondary font for event titles */
+}
+
+.eventItem p {
+    margin-bottom: var(--spacing-small);
+    color: var(--text-color-primary);
+    font-family: var(--font-primary);
+}

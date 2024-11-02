@@ -1,1 +1,84 @@
-/*
+/* Navbar Container */
+.navbar {
+    width: 250px;
+    height: 100vh;
+    background-color: var(--primary-color);
+    color: var(--text-color-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--spacing-large) var(--spacing-medium);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-family: var(--font-primary); /* Apply primary font to navbar */
+}
+
+/* User Information Section */
+.userInfo {
+    text-align: center;
+    margin-bottom: var(--spacing-large);
+}
+
+.userName {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: var(--font-secondary); /* Use secondary font for user name */
+}
+
+.userRole {
+    font-size: 16px;
+    color: var(--text-color-secondary);
+    font-family: var(--font-primary);
+}
+
+/* Navigation List */
+.navList {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1; /* Pushes the actionLinks to the bottom */
+}
+
+.navItem {
+    font-size: 18px;
+    padding: var(--spacing-small) 0;
+    margin: var(--spacing-small) 0;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    padding-left: var(--spacing-small);
+    border-radius: 4px;
+    color: var(--text-color-primary); /* Ensure text color uses variable */
+    font-family: var(--font-primary);
+}
+
+.navItem:hover {
+    background-color: var(--hover-color-primary);
+    color: var(--text-color-primary);
+}
+
+/* Action Links Section */
+.actionLinks {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionButton {
+    padding: var(--spacing-small);
+    margin-top: var(--spacing-small);
+    background-color: var(--secondary-color);
+    color: var(--text-color-secondary);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: var(--font-primary);
+    font-weight: bold;
+}
+
+.actionButton:hover {
+    background-color: var(--hover-color-secondary);
+}

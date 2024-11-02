@@ -1,1 +1,16 @@
-/*
+.container {
+    margin-left: 250px; /* Width of the Navbar */
+    padding: var(--spacing-large);
+    min-height: 100vh;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-primary); /* Apply primary font */
+}
+
+.message {
+    font-size: 24px;
+    color: var(--primary-color);
+    font-family: var(--font-secondary); /* Use secondary font for message */
+}

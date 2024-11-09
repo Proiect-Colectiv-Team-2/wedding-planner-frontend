@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { getEvents, deleteEvent } from '../../services/eventService';
 import styles from './MyEvents.module.css';
 import Navbar from '../../components/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const MyEvents = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -51,6 +53,28 @@ const MyEvents = () => {
         );
     }
 
+    const handleEdit = (id) => {
+        navigate(`/edit-event/${id}`); // Ensure this matches the route defined in App.jsx
+    };
+
+    if (loading) {
+        return (
+            <div className={styles.container}>
+                <Navbar />
+                <p className={styles.message}>Loading events...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={styles.container}>
+                <Navbar />
+                <p className={styles.error}>{error}</p>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.container}>
             <Navbar />
@@ -68,6 +92,13 @@ const MyEvents = () => {
                             </p>
                             <p>Address: {event.address || 'N/A'}</p>
                             <p>Organizers: {event.organizers.map(org => org.email).join(', ')}</p>
+
+                            <button
+                                className={styles.editButton}
+                                onClick={() => handleEdit(event._id)}
+                            >
+                                Edit
+                            </button>
                             <button
                                 onClick={() => handleDeleteEvent(event._id)}
                                 className={styles.deleteButton}

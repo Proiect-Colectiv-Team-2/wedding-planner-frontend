@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getEvents } from '../../services/eventService';
+import { getEvents, deleteEvent } from '../../services/eventService';
 import styles from './MyEvents.module.css';
 import Navbar from '../../components/Navbar';
 
@@ -21,6 +21,17 @@ const MyEvents = () => {
         };
         fetchEvents();
     }, []);
+
+    const handleDeleteEvent = async (id) => {
+        try {
+            await deleteEvent(id);  // Call the delete function from the service
+            setEvents(events.filter(event => event._id !== id));  // Remove deleted event from state
+            alert('Event deleted successfully');
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            alert('Failed to delete event');
+        }
+    };
 
     if (loading) {
         return (
@@ -57,6 +68,12 @@ const MyEvents = () => {
                             </p>
                             <p>Address: {event.address || 'N/A'}</p>
                             <p>Organizers: {event.organizers.map(org => org.email).join(', ')}</p>
+                            <button
+                                onClick={() => handleDeleteEvent(event._id)}
+                                className={styles.deleteButton}
+                            >
+                                Delete
+                            </button>
                         </li>
                     ))}
                 </ul>

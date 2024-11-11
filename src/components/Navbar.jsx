@@ -19,13 +19,19 @@ const Navbar = () => {
 
     return (
         <div className={styles.navbar}>
-            {/* User Information */}
-            <div className={styles.userInfo}>
-                <h2 className={styles.userName}>
-                    {currentUser.firstName ? `${currentUser.firstName} ${currentUser.lastName}` : currentUser.email}
-                </h2>
-                <p className={styles.userRole}>{currentUser.role}</p>
-            </div>
+            {/* Check if currentUser exists before accessing properties */}
+            {currentUser ? (
+                <div className={styles.userInfo}>
+                    <h2 className={styles.userName}>
+                        {currentUser.firstName
+                            ? `${currentUser.firstName} ${currentUser.lastName}`
+                            : currentUser.email}
+                    </h2>
+                    <p className={styles.userRole}>{currentUser.role}</p>
+                </div>
+            ) : (
+                <p>Loading user data...</p> // Display a loading indicator or placeholder
+            )}
 
             {/* Navigation Links */}
             <ul className={styles.navList}>

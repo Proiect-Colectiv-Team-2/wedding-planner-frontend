@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createEvent } from '../../services/eventService.js'; // Assuming you have a service file for events
+import { createEvent } from '../../services/eventService.js';
 import Navbar from '../../components/Navbar';
 import styles from './CreateEvent.module.css';
 
@@ -10,8 +10,8 @@ const CreateEvent = () => {
         startDateTime: '',
         endDateTime: '',
         address: '',
-        photos: [],
     });
+    const [error, setError] = useState(''); // State to hold error message
 
     const navigate = useNavigate();
 
@@ -21,14 +21,22 @@ const CreateEvent = () => {
             ...eventData,
             [name]: value,
         });
+        setError(''); // Clear error message on input change
     };
 
     const handleCreateEvent = async (e) => {
         e.preventDefault();
+
+        // Check if the end date is after the start date
+        if (new Date(eventData.endDateTime) <= new Date(eventData.startDateTime)) {
+            setError('End date must be after start date');
+            return;
+        }
+
         try {
-            const newEvent = await createEvent(eventData); // Assuming createEvent sends the event data to your API
+            await createEvent(eventData); // Assuming createEvent sends the event data to your API
             alert('Event created successfully');
-            navigate(`/home`); // Redirect to the new event's page
+            navigate('/home'); // Redirect to home page after successful creation
         } catch (error) {
             console.error('Error creating event:', error);
             alert('Failed to create event');
@@ -86,15 +94,7 @@ const CreateEvent = () => {
                     />
                 </div>
 
-                <div className={styles.formGroup}>
-                    <input
-                        type="file"
-                        name="photos"
-                        onChange={(e) => setEventData({ ...eventData, photos: e.target.files })}
-                        className={styles.input}
-                        multiple
-                    />
-                </div>
+                {error && <p className={styles.error}>{error}</p>} {/* Display error message */}
 
                 <button type="submit" className={styles.button}>
                     Create Event

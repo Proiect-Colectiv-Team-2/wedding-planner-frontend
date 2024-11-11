@@ -28,7 +28,7 @@ const CreateEvent = () => {
         try {
             const newEvent = await createEvent(eventData); // Assuming createEvent sends the event data to your API
             alert('Event created successfully');
-            navigate(`/events/${newEvent._id}`); // Redirect to the new event's page
+            navigate(`/home`); // Redirect to the new event's page
         } catch (error) {
             console.error('Error creating event:', error);
             alert('Failed to create event');

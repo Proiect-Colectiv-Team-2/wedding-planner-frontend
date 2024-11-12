@@ -1,63 +1,40 @@
+/* src/pages/Events/MyEvents.module.css */
+
 .container {
-    margin-left: 250px; /* Width of the Navbar */
+    margin-left: 200px; /* Match Navbar width */
     padding: var(--spacing-large);
     min-height: 100vh;
     background-color: var(--background-color);
-    font-family: var(--font-primary); /* Apply primary font */
+    font-family: var(--font-primary);
 }
 
 .title {
-    font-size: 28px;
+    font-size: 2rem; /* 32px */
     margin-bottom: var(--spacing-medium);
     color: var(--primary-color);
-    font-family: var(--font-secondary); /* Use secondary font for title */
+    font-family: var(--font-secondary);
+    text-align: center;
 }
 
 .message {
-    font-size: 18px;
-    color: var(--text-color-secondary);
-    font-family: var(--font-primary);
-}
-
-.deleteButton {
-    padding: 8px 16px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.editButton {
-    padding: 8px 16px;
-    background-color: #4CAF50; /* A color that matches or complements the theme */
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.editButton:hover {
-    background-color: #45a049; /* Slightly darker shade for hover effect */
-}
-
-.deleteButton:hover {
-    background-color: #c0392b;
+    font-size: 1.125rem; /* 18px */
+    color: var(--text-color-muted);
+    text-align: center;
 }
 
 .error {
-    font-size: 18px;
+    font-size: 1.125rem; /* 18px */
     color: var(--danger-color);
-    font-family: var(--font-primary);
+    text-align: center;
+    margin-bottom: var(--spacing-medium);
 }
 
 .eventList {
     list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-medium);
 }
 
 .eventItem {
@@ -65,19 +42,86 @@
     border: 1px solid var(--hover-color-secondary);
     border-radius: 8px;
     padding: var(--spacing-medium);
-    margin-bottom: var(--spacing-medium);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: var(--font-primary);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.eventItem h2 {
+.eventItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.eventInfo {
+    margin-bottom: var(--spacing-medium);
+}
+
+.eventInfo h2 {
+    font-size: 1.5rem; /* 24px */
     margin-bottom: var(--spacing-small);
     color: var(--primary-color);
-    font-family: var(--font-secondary); /* Use secondary font for event titles */
+    font-family: var(--font-secondary);
 }
 
-.eventItem p {
+.eventInfo p {
+    font-size: 1rem; /* 16px */
     margin-bottom: var(--spacing-small);
     color: var(--text-color-primary);
+}
+
+.eventActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-small);
+}
+
+.viewButton,
+.editButton,
+.deleteButton {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     font-family: var(--font-primary);
+}
+
+.viewButton {
+    background-color: var(--primary-color);
+    color: var(--text-color-primary);
+}
+
+.viewButton:hover {
+    background-color: var(--hover-color-primary);
+}
+
+.editButton {
+    background-color: var(--primary-color);
+    color: var(--text-color-primary);
+}
+
+.editButton:hover {
+    background-color: var(--hover-color-primary);
+}
+
+.deleteButton {
+    background-color: var(--highlight-color);
+    color: var(--text-color-primary);
+}
+
+.deleteButton:hover {
+    background-color: var(--highlight-hover-color);}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 60px; /* Match collapsed Navbar width */
+    }
+
+    .eventList {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
 }

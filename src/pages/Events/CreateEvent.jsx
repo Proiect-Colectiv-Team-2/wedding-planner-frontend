@@ -50,8 +50,10 @@ const CreateEvent = () => {
 
             <form onSubmit={handleCreateEvent} className={styles.form}>
                 <div className={styles.formGroup}>
+                    <label htmlFor="name" className={styles.label}>Event Name</label>
                     <input
                         type="text"
+                        id="name"
                         name="name"
                         value={eventData.name}
                         onChange={handleInputChange}
@@ -62,8 +64,10 @@ const CreateEvent = () => {
                 </div>
 
                 <div className={styles.formGroup}>
+                    <label htmlFor="startDateTime" className={styles.label}>Start Date & Time</label>
                     <input
                         type="datetime-local"
+                        id="startDateTime"
                         name="startDateTime"
                         value={eventData.startDateTime}
                         onChange={handleInputChange}
@@ -73,8 +77,10 @@ const CreateEvent = () => {
                 </div>
 
                 <div className={styles.formGroup}>
+                    <label htmlFor="endDateTime" className={styles.label}>End Date & Time</label>
                     <input
                         type="datetime-local"
+                        id="endDateTime"
                         name="endDateTime"
                         value={eventData.endDateTime}
                         onChange={handleInputChange}
@@ -84,8 +90,10 @@ const CreateEvent = () => {
                 </div>
 
                 <div className={styles.formGroup}>
+                    <label htmlFor="address" className={styles.label}>Event Address</label>
                     <input
                         type="text"
+                        id="address"
                         name="address"
                         value={eventData.address}
                         onChange={handleInputChange}

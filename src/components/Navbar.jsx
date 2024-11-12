@@ -19,7 +19,7 @@ const Navbar = () => {
 
     return (
         <div className={styles.navbar}>
-            {/* Check if currentUser exists before accessing properties */}
+            {/* User Information */}
             {currentUser ? (
                 <div className={styles.userInfo}>
                     <h2 className={styles.userName}>
@@ -37,11 +37,14 @@ const Navbar = () => {
             <ul className={styles.navList}>
                 <li className={styles.navItem} onClick={() => handleNavigation('/home')}>Home</li>
                 <li className={styles.navItem} onClick={() => handleNavigation('/myevents')}>My Events</li>
+                {/* Conditionally render 'Create Event' for Organizers */}
+                {currentUser.role === 'Organizer' && (
+                    <li className={styles.navItem} onClick={() => handleNavigation('/create-event')}>Create Event</li>
+                )}
             </ul>
 
             {/* Action Links */}
             <div className={styles.actionLinks}>
-                <button className={styles.actionButton} onClick={() => handleNavigation('/create-event')}>Create Event</button>
                 <button className={styles.actionButton} onClick={handleLogout}>Log Out</button>
             </div>
         </div>

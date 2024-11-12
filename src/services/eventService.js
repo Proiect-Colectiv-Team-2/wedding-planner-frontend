@@ -6,6 +6,13 @@ export const getEvents = async () => {
     return response.data;
 };
 
+// Fetch a single event by ID
+export const getEventById = async (id) => {
+    const response = await api.get(`/api/events/${id}`);
+    console.log(response.data)
+    return response.data;
+};
+
 // Create an event
 export const createEvent = async (eventData) => {
     try {

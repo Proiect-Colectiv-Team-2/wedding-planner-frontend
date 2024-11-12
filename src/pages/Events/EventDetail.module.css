@@ -1,0 +1,120 @@
+/* src/pages/Events/EventDetail.module.css */
+
+.container {
+    margin-left: 200px; /* Match Navbar width */
+    padding: var(--spacing-large);
+    max-width: 800px;
+    margin: 0 auto 50px auto; /* Center the container and add bottom margin */
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-primary);
+}
+
+.message {
+    text-align: center;
+    font-size: 1.5rem; /* 24px */
+    margin-bottom: var(--spacing-medium);
+    color: var(--primary-color);
+    font-family: var(--font-secondary);
+}
+
+.title {
+    font-size: 2rem; /* 32px */
+    margin-bottom: var(--spacing-medium);
+    color: var(--primary-color);
+    font-family: var(--font-secondary);
+    text-align: center;
+}
+
+.dates,
+.address {
+    font-size: 1.125rem; /* 18px */
+    margin-bottom: 0.5rem;
+    color: var(--text-color-primary);
+    text-align: center;
+}
+
+.subNav {
+    margin-top: var(--spacing-medium);
+    margin-bottom: var(--spacing-medium);
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-medium);
+}
+
+.navLink {
+    text-decoration: none;
+    color: var(--highlight-color);
+    font-size: 1.125rem; /* 18px */
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: var(--font-primary);
+}
+
+.navLink:hover {
+    color: var(--text-color-primary);
+    background-color: var(--highlight-color);
+    border: 1px solid var(--highlight-color);
+}
+
+.photosContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-medium);
+    margin-top: var(--spacing-medium);
+}
+
+.photo {
+    width: 100%;
+    height: 200px; /* Increased height for better visibility */
+    object-fit: cover; /* Ensures the image covers the container without distortion */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.photo:hover {
+    transform: scale(1.05);
+}
+
+.message {
+    font-size: 1.125rem; /* 18px */
+    color: var(--text-color-muted);
+    text-align: center;
+}
+
+.error {
+    font-size: 1.125rem; /* 18px */
+    color: var(--danger-color);
+    text-align: center;
+    margin-bottom: var(--spacing-medium);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 60px; /* Match collapsed Navbar width */
+        padding: var(--spacing-medium);
+    }
+
+    .subNav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navLink {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    .photosContainer {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .photo {
+        height: 150px; /* Adjust height for smaller screens */
+    }
+}

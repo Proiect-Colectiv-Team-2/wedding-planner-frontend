@@ -1,19 +1,28 @@
+/* src/pages/Events/CreateEvent.module.css */
+
 .container {
-    padding: 20px;
+    margin-left: 200px; /* Match Navbar width */
+    padding: var(--spacing-large);
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto 50px auto; /* Center the container and add bottom margin */
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-primary);
 }
 
 .message {
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 1.5rem; /* 24px */
+    margin-bottom: var(--spacing-medium);
+    color: var(--primary-color);
+    font-family: var(--font-secondary);
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: var(--spacing-medium);
 }
 
 .formGroup {
@@ -21,23 +30,70 @@
     flex-direction: column;
 }
 
-.input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+.label {
+    font-size: 1rem; /* 16px */
+    margin-bottom: 0.5rem;
+    color: var(--text-color-secondary);
+    font-family: var(--font-primary);
+}
+
+.input,
+.textarea,
+.select {
+    padding: var(--spacing-small);
+    font-size: 1rem; /* 16px */
+    border: 1px solid var(--hover-color-secondary);
     border-radius: 5px;
+    background-color: var(--input-background-color);
+    color: var(--text-color-secondary);
+    font-family: var(--font-primary);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.select {
+    height: 40px;
+}
+
+.input:focus,
+.select:focus {
+    border-color: var(--highlight-color);
+    outline: none;
+    box-shadow: 0 0 4px rgba(219, 83, 117, 0.3);
 }
 
 .button {
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    font-size: 16px;
+    padding: var(--spacing-small) var(--spacing-medium);
+    background-color: var(--highlight-color);
+    color: var(--text-color-primary);
+    font-size: 1rem; /* 16px */
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: var(--font-primary);
+    font-weight: bold;
 }
 
 .button:hover {
-    background-color: #45a049;
+    background-color: var(--highlight-hover-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 60px; /* Match collapsed Navbar width */
+        padding: var(--spacing-medium);
+    }
+
+    .form {
+        gap: var(--spacing-small);
+    }
+
+    .button {
+        width: 100%;
+    }
 }

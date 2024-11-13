@@ -1,6 +1,8 @@
+/* src/components/Navbar.module.css */
+
 /* Navbar Container */
 .navbar {
-    width: 250px;
+    width: 200px; /* Reduced width */
     height: 100vh;
     background-color: var(--primary-color);
     color: var(--text-color-primary);
@@ -15,6 +17,8 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     font-family: var(--font-primary); /* Apply primary font to navbar */
+    overflow: hidden; /* Prevent content overflow */
+    transition: width 0.3s ease; /* Smooth transition for width changes */
 }
 
 /* User Information Section */
@@ -24,14 +28,18 @@
 }
 
 .userName {
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: bold;
     margin-bottom: 5px;
     font-family: var(--font-secondary); /* Use secondary font for user name */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Ensure it doesn't exceed Navbar width */
 }
 
 .userRole {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--text-color-secondary);
     font-family: var(--font-primary);
 }
@@ -44,7 +52,7 @@
 }
 
 .navItem {
-    font-size: 18px;
+    font-size: 1rem;
     padding: var(--spacing-small) 0;
     margin: var(--spacing-small) 0;
     cursor: pointer;
@@ -53,6 +61,10 @@
     border-radius: 4px;
     color: var(--text-color-primary); /* Ensure text color uses variable */
     font-family: var(--font-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px; /* Adjusted to fit within 200px Navbar */
 }
 
 .navItem:hover {
@@ -67,7 +79,7 @@
 }
 
 .actionButton {
-    padding: var(--spacing-small);
+    padding: 0.5rem;
     margin-top: var(--spacing-small);
     background-color: var(--secondary-color);
     color: var(--text-color-secondary);
@@ -81,4 +93,31 @@
 
 .actionButton:hover {
     background-color: var(--hover-color-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        width: 60px; /* Collapse to a smaller width on smaller screens */
+        padding: var(--spacing-small);
+    }
+
+    .userInfo {
+        display: none; /* Hide user info on smaller screens */
+    }
+
+    .navItem {
+        text-align: center;
+        padding: var(--spacing-small) 0;
+        max-width: 100%;
+    }
+
+    .navItem:hover {
+        background-color: var(--hover-color-primary);
+    }
+
+    .actionButton {
+        padding: 0.25rem;
+        font-size: 0.75rem;
+    }
 }

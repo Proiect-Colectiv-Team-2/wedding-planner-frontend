@@ -1,14 +1,18 @@
+// src/pages/Events/MyEvents.jsx
+
 import { useEffect, useState } from 'react';
 import { getEvents, deleteEvent } from '../../services/eventService';
 import styles from './MyEvents.module.css';
 import Navbar from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const MyEvents = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -25,36 +29,24 @@ const MyEvents = () => {
     }, []);
 
     const handleDeleteEvent = async (id) => {
-        try {
-            await deleteEvent(id);  // Call the delete function from the service
-            setEvents(events.filter(event => event._id !== id));  // Remove deleted event from state
-            alert('Event deleted successfully');
-        } catch (error) {
-            console.error('Error deleting event:', error);
-            alert('Failed to delete event');
+        if (window.confirm('Are you sure you want to delete this event?')) {
+            try {
+                await deleteEvent(id);  // Call the delete function from the service
+                setEvents(events.filter(event => event._id !== id));  // Remove deleted event from state
+                alert('Event deleted successfully');
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                alert('Failed to delete event');
+            }
         }
     };
 
-    if (loading) {
-        return (
-            <div className={styles.container}>
-                <Navbar />
-                <p className={styles.message}>Loading events...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className={styles.container}>
-                <Navbar />
-                <p className={styles.error}>{error}</p>
-            </div>
-        );
-    }
-
     const handleEdit = (id) => {
         navigate(`/edit-event/${id}`); // Ensure this matches the route defined in App.jsx
+    };
+
+    const handleView = (id) => {
+        navigate(`/events/${id}`); // Navigate to EventDetail page
     };
 
     if (loading) {
@@ -85,26 +77,39 @@ const MyEvents = () => {
                 <ul className={styles.eventList}>
                     {events.map((event) => (
                         <li key={event._id} className={styles.eventItem}>
-                            <h2>{event.name}</h2>
-                            <p>
-                                {new Date(event.startDateTime).toLocaleString()} -{' '}
-                                {new Date(event.endDateTime).toLocaleString()}
-                            </p>
-                            <p>Address: {event.address || 'N/A'}</p>
-                            <p>Organizers: {event.organizers.map(org => org.email).join(', ')}</p>
-
-                            <button
-                                className={styles.editButton}
-                                onClick={() => handleEdit(event._id)}
-                            >
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => handleDeleteEvent(event._id)}
-                                className={styles.deleteButton}
-                            >
-                                Delete
-                            </button>
+                            <div className={styles.eventInfo}>
+                                <h2>{event.name}</h2>
+                                <p>
+                                    {new Date(event.startDateTime).toLocaleString()} -{' '}
+                                    {new Date(event.endDateTime).toLocaleString()}
+                                </p>
+                                <p>Address: {event.address || 'N/A'}</p>
+                                <p>Organizers: {event.organizers.map(org => org.email).join(', ')}</p>
+                            </div>
+                            <div className={styles.eventActions}>
+                                <button
+                                    className={styles.viewButton}
+                                    onClick={() => handleView(event._id)}
+                                >
+                                    View
+                                </button>
+                                {currentUser.role === 'Organizer' && (
+                                    <>
+                                        <button
+                                            className={styles.editButton}
+                                            onClick={() => handleEdit(event._id)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteEvent(event._id)}
+                                            className={styles.deleteButton}
+                                        >
+                                            Delete
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </li>
                     ))}
                 </ul>

@@ -6,3 +6,26 @@
     justify-content: center;
     padding: var(--spacing-large);
 }
+
+.container {
+    margin-left: 200px; /* Match Navbar width */
+    padding: var(--spacing-large);
+    min-height: 100vh;
+    background-color: var(--background-color);
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    display:flex;
+    justify-content: center;
+}
+
+.carousel{
+    justify-self: center;
+    align-content: center;
+    align-self: center;
+    opacity: 90%;
+}
+
+.headerText
+{
+    margin-bottom: 2%;
+}

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import styles from './Navbar.module.css';
+import { AiFillHome, AiFillPlusCircle, AiFillStar } from "react-icons/ai";
 
 const Navbar = () => {
     const { currentUser, logout } = useAuth(); // Access currentUser and logout function
@@ -35,11 +36,20 @@ const Navbar = () => {
 
             {/* Navigation Links */}
             <ul className={styles.navList}>
-                <li className={styles.navItem} onClick={() => handleNavigation('/home')}>Home</li>
-                <li className={styles.navItem} onClick={() => handleNavigation('/myevents')}>My Events</li>
+                <li className={styles.navItem} onClick={() => handleNavigation('/home')}>
+                    <AiFillHome className={styles.navItemIcon}/>
+                    <span className={styles.navItemText}>Home</span>
+                </li> 
+                <li className={styles.navItem} onClick={() => handleNavigation('/myevents')}>
+                    <AiFillStar className={styles.navItemIcon}/>
+                    <span className={styles.navItemText}>My Events</span>
+                    </li>
                 {/* Conditionally render 'Create Event' for Organizers */}
                 {currentUser.role === 'Organizer' && (
-                    <li className={styles.navItem} onClick={() => handleNavigation('/create-event')}>Create Event</li>
+                    <li className={styles.navItem} onClick={() => handleNavigation('/create-event')}>
+                        <AiFillPlusCircle className={styles.navItemIcon}/>
+                        <span className={styles.navItemText}>Create Event</span>
+                    </li>
                 )}
             </ul>
 

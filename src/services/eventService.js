@@ -14,13 +14,13 @@ export const getEventById = async (id) => {
 };
 
 // Create an event
-export const createEvent = async (eventData) => {
+export const createEvent = async (formData) => {
     try {
-        const response = await api.post('/api/events', eventData); // POST request to create event
-        return response.data; // The backend should return the created event
+        const response = await api.post('/api/events', formData);
+        return response.data;
     } catch (error) {
         console.error('Error creating event:', error);
-        throw error; // Propagate the error to be handled in the component
+        throw error;
     }
 };
 
@@ -32,6 +32,17 @@ export const deleteEvent = async (id) => {
 
 // Add the updateEvent function
 export const updateEvent = async (id, updatedData) => {
-    const response = await api.put(`/api/events/${id}`, updatedData);
-    return response.data;
+    try {
+        let config = {};
+        if (updatedData instanceof FormData) {
+            config.headers = {
+                'Content-Type': 'multipart/form-data',
+            };
+        }
+        const response = await api.put(`/api/events/${id}`, updatedData, config);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating event:', error);
+        throw error;
+    }
 };

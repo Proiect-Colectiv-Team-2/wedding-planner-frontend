@@ -13,7 +13,7 @@
 
 .message {
     text-align: center;
-    font-size: 1.5rem; /* 24px */
+    font-size: 2rem;
     margin-bottom: var(--spacing-medium);
     color: var(--primary-color);
     font-family: var(--font-secondary);

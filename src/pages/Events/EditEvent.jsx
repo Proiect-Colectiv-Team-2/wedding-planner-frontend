@@ -1,9 +1,8 @@
-// src/pages/Events/EditEvent.jsx
-
-import {useState, useEffect} from 'react';
-import {useParams, useNavigate} from 'react-router-dom';
-import {getEventById, updateEvent} from '../../services/eventService';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getEventById, updateEvent } from '../../services/eventService';
 import Navbar from '../../components/Navbar';
+import useAuth from '../../hooks/useAuth';
 import styles from './EditEvent.module.css';
 
 // Function to validate the name
@@ -20,7 +19,9 @@ const EditEvent = () => {
         endDateTime: '',
         address: '',
     });
+    const [photo, setPhoto] = useState(null);
     const [error, setError] = useState('');
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,12 +43,16 @@ const EditEvent = () => {
     }, [id]);
 
     const handleInputChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setEventData({
             ...eventData,
             [name]: value,
         });
-        setError(''); // Clear error message on input change
+        setError('');
+    };
+
+    const handleFileChange = (e) => {
+        setPhoto(e.target.files[0]);
     };
 
     const handleUpdateEvent = async (e) => {
@@ -72,9 +77,25 @@ const EditEvent = () => {
         }
 
         try {
-            await updateEvent(id, eventData);
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('name', eventData.name);
+            formData.append('startDateTime', eventData.startDateTime);
+            formData.append('endDateTime', eventData.endDateTime);
+            formData.append('address', eventData.address);
+
+            // Append photo if selected
+            if (photo) {
+                formData.append('photo', photo);
+                formData.append('replacePhoto', true); // Indicate that the photo should be replaced
+                if (currentUser && currentUser._id) {
+                    formData.append('photoUser', currentUser._id);
+                }
+            }
+
+            await updateEvent(id, formData);
             alert('Event updated successfully');
-            navigate('/myevents'); // Navigate back to the My Events page after updating
+            navigate('/myevents');
         } catch (error) {
             console.error('Error updating event:', error);
             alert('Failed to update event');
@@ -84,7 +105,7 @@ const EditEvent = () => {
     if (error) {
         return (
             <div className={styles.container}>
-                <Navbar/>
+                <Navbar />
                 <p className={styles.error}>{error}</p>
             </div>
         );
@@ -92,9 +113,9 @@ const EditEvent = () => {
 
     return (
         <div className={styles.container}>
-            <Navbar/>
+            <Navbar />
             <h1 className={styles.message}>Edit Event</h1>
-            <form onSubmit={handleUpdateEvent} className={styles.form}>
+            <form onSubmit={handleUpdateEvent} className={styles.form} encType="multipart/form-data">
                 <div className={styles.formGroup}>
                     <label htmlFor="name" className={styles.label}>Event Name</label>
                     <input
@@ -144,6 +165,19 @@ const EditEvent = () => {
                         value={eventData.address}
                         onChange={handleInputChange}
                         placeholder="Event Address"
+                        className={styles.input}
+                    />
+                </div>
+
+                {/* File input for new photo */}
+                <div className={styles.formGroup}>
+                    <label htmlFor="photo" className={styles.label}>Change Event Photo</label>
+                    <input
+                        type="file"
+                        id="photo"
+                        name="photo"
+                        accept="image/*"
+                        onChange={handleFileChange}
                         className={styles.input}
                     />
                 </div>

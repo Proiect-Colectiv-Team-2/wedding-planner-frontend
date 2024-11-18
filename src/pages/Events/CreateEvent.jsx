@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { createEvent } from '../../services/eventService.js';
 import Navbar from '../../components/Navbar';
 import styles from './CreateEvent.module.css';
+import useAuth from "../../hooks/useAuth.js";
 
 // Function to validate the name
 const isValidName = (name) => /^[A-Za-z0-9\s]+$/.test(name) && name.length <= 100;
@@ -17,8 +18,10 @@ const CreateEvent = () => {
         endDateTime: '',
         address: '',
     });
-    const [error, setError] = useState(''); // State to hold error message
+    const [photo, setPhoto] = useState(null);
+    const [error, setError] = useState('');
 
+    const { currentUser } = useAuth(); // Access currentUser
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -27,7 +30,11 @@ const CreateEvent = () => {
             ...eventData,
             [name]: value,
         });
-        setError(''); // Clear error message on input change
+        setError('');
+    };
+
+    const handleFileChange = (e) => {
+        setPhoto(e.target.files[0]);
     };
 
     const handleCreateEvent = async (e) => {
@@ -52,9 +59,29 @@ const CreateEvent = () => {
         }
 
         try {
-            await createEvent(eventData); // Assuming createEvent sends the event data to your API
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('name', eventData.name);
+            formData.append('startDateTime', eventData.startDateTime);
+            formData.append('endDateTime', eventData.endDateTime);
+            formData.append('address', eventData.address);
+
+            // Append organizers (current user's ID)
+            if (currentUser && currentUser._id) {
+                formData.append('organizers', currentUser._id);
+            }
+
+            // Append photo if selected
+            if (photo) {
+                formData.append('photo', photo);
+                if (currentUser && currentUser._id) {
+                    formData.append('photoUser', currentUser._id);
+                }
+            }
+
+            await createEvent(formData);
             alert('Event created successfully');
-            navigate('/home'); // Redirect to home page after successful creation
+            navigate('/myevents');
         } catch (error) {
             console.error('Error creating event:', error);
             alert('Failed to create event');
@@ -66,7 +93,7 @@ const CreateEvent = () => {
             <Navbar />
             <h1 className={styles.message}>Create Event</h1>
 
-            <form onSubmit={handleCreateEvent} className={styles.form}>
+            <form onSubmit={handleCreateEvent} className={styles.form} encType="multipart/form-data">
                 <div className={styles.formGroup}>
                     <label htmlFor="name" className={styles.label}>Event Name</label>
                     <input
@@ -120,7 +147,20 @@ const CreateEvent = () => {
                     />
                 </div>
 
-                {error && <p className={styles.error}>{error}</p>} {/* Display error message */}
+                {/* File input for photo */}
+                <div className={styles.formGroup}>
+                    <label htmlFor="photo" className={styles.label}>Event Photo</label>
+                    <input
+                        type="file"
+                        id="photo"
+                        name="photo"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className={styles.input}
+                    />
+                </div>
+
+                {error && <p className={styles.error}>{error}</p>}
 
                 <button type="submit" className={styles.button}>
                     Create Event

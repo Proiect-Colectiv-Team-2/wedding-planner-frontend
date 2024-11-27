@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getEventById } from '../../services/eventService';
@@ -10,6 +11,7 @@ const EventDetail = () => {
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
     const { currentUser } = useAuth(); // Access current user information
 
     useEffect(() => {
@@ -44,6 +46,10 @@ const EventDetail = () => {
         );
     }
 
+    const handleGoToGallery = () => {
+        navigate(`/events/${id}/photos`);
+    };
+
     return (
         <div className={styles.container}>
             <Navbar />
@@ -64,9 +70,9 @@ const EventDetail = () => {
                 <a href={`/events/${id}/schedule`} className={styles.navLink}>
                     Schedule
                 </a>
-                <a href={`/events/${id}/photos`} className={styles.navLink}>
+                <button onClick={handleGoToGallery} className={styles.navLink}>
                     Photos
-                </a>
+                </button>
                 {currentUser && currentUser.role === 'Participant' && (
                     <a href={`/events/${id}/upload-photo`} className={styles.navLink}>
                         Upload Photo

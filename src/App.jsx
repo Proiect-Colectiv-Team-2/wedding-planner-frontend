@@ -77,6 +77,17 @@ function App() {
                         }
                     />
 
+                    {/* denested route because it wouldnt redirect otherwise */}
+
+                    <Route
+                        path="/events/:id/schedule"
+                        element={
+                            <ProtectedRoute>
+                                <ScheduleManagement />
+                            </ProtectedRoute>        
+                        }
+                    />
+
                     <Route
                         path="/events/:id/*"
                         element={
@@ -95,10 +106,7 @@ function App() {
                             }
                         />
 
-                        <Route
-                            path="schedule"
-                            element={<ScheduleManagement />}
-                        />
+                        
 
                         <Route
                             path="photos"

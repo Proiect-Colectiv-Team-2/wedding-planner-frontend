@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getEventById } from '../../services/eventService';
 import Navbar from '../../components/Navbar';
@@ -11,6 +11,7 @@ const EventDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { currentUser } = useAuth(); // Access current user information
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -61,7 +62,7 @@ const EventDetail = () => {
                         Participants
                     </a>
                 )}
-                <a href={`/events/${id}/schedule`} className={styles.navLink}>
+                <a className={styles.navLink} onClick={() => navigate('schedule') }>
                     Schedule
                 </a>
                 <a href={`/events/${id}/photos`} className={styles.navLink}>
@@ -87,6 +88,7 @@ const EventDetail = () => {
                     ))}
                 </div>
             )}
+            <Outlet />
         </div>
     );
 };

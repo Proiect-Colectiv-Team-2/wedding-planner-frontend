@@ -1,4 +1,4 @@
-import { useNavigate, useParams, Outlet } from 'react-router-dom';
+import { useParams, Outlet, Link} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getEventById } from '../../services/eventService';
 import Navbar from '../../components/Navbar';
@@ -11,7 +11,7 @@ const EventDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { currentUser } = useAuth(); // Access current user information
-    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -47,7 +47,7 @@ const EventDetail = () => {
 
     return (
         <div className={styles.container}>
-            <Navbar />
+            <Navbar/>
             <h1 className={styles.title}>{event.name}</h1>
             <p className={styles.dates}>
                 {new Date(event.startDateTime).toLocaleString()} -{' '}
@@ -58,24 +58,24 @@ const EventDetail = () => {
             {/* Navigation for Event Subsections */}
             <nav className={styles.subNav}>
                 {currentUser && currentUser.role === 'Organizer' && (
-                    <a href={`/events/${id}/participants`} className={styles.navLink}>
+                    <Link to={`/events/${id}/participants`} className={styles.navLink}>
                         Participants
-                    </a>
+                    </Link>
                 )}
-                <a className={styles.navLink} onClick={() => navigate('schedule') }>
+                <Link to={`/events/${id}/schedule`} className={styles.navLink}>
                     Schedule
-                </a>
-                <a href={`/events/${id}/photos`} className={styles.navLink}>
+                </Link>
+                <Link to={`/events/${id}/photos`} className={styles.navLink}>
                     Photos
-                </a>
+                </Link>
                 {currentUser && currentUser.role === 'Participant' && (
-                    <a href={`/events/${id}/upload-photo`} className={styles.navLink}>
+                    <Link to={`/events/${id}/upload-photo`} className={styles.navLink}>
                         Upload Photo
-                    </a>
+                    </Link>
                 )}
             </nav>
 
-            {/* Display Event Photos (Optional) */}
+            {/* Display Event Photos Preview (Optional) */}
             {event.photos && event.photos.length > 0 && (
                 <div className={styles.photosContainer}>
                     {event.photos.map(photo => (
@@ -88,7 +88,7 @@ const EventDetail = () => {
                     ))}
                 </div>
             )}
-            <Outlet />
+            <Outlet/>
         </div>
     );
 };

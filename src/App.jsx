@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
-// import Register from './pages/Register'; // If applicable
 import Home from './pages/Home';
 import MyEvents from "./pages/Events/MyEvents.jsx";
 import CreateEvent from "./pages/Events/CreateEvent.jsx";
@@ -11,7 +10,6 @@ import ParticipantsManagement from "./pages/Events/ParticipantsManagement.jsx";
 import ScheduleManagement from "./pages/Events/ScheduleManagement.jsx";
 import PhotosGallery from "./pages/Events/PhotosGallery.jsx";
 import UploadPhoto from "./pages/Events/UploadPhoto.jsx";
-// import ConfirmInvitation from "./pages/ConfirmInvitation.jsx";
 import useAuth from "./hooks/useAuth.js";
 
 const ProtectedRoute = ({ children, roles }) => {
@@ -35,10 +33,6 @@ function App() {
                 <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<Login />} />
-                    {/*<Route path="/register" element={<Register />} /> /!* Optional *!/*/}
-
-                    {/*/!* Invitation Confirmation Route *!/*/}
-                    {/*<Route path="/invite/:invitationLink" element={<ConfirmInvitation />} />*/}
 
                     {/* Protected Routes */}
                     <Route
@@ -77,51 +71,55 @@ function App() {
                         }
                     />
 
-                    {/* denested route because it wouldnt redirect otherwise */}
-
+                    {/* Event Detail */}
                     <Route
-                        path="/events/:id/schedule"
-                        element={
-                            <ProtectedRoute>
-                                <ScheduleManagement />
-                            </ProtectedRoute>        
-                        }
-                    />
-
-                    <Route
-                        path="/events/:id/*"
+                        path="/events/:id"
                         element={
                             <ProtectedRoute>
                                 <EventDetail />
                             </ProtectedRoute>
                         }
-                    >
-                        {/* Nested Routes within EventDetail */}
-                        <Route
-                            path="participants"
-                            element={
-                                <ProtectedRoute roles={['Organizer']}>
-                                    <ParticipantsManagement />
-                                </ProtectedRoute>
-                            }
-                        />
+                    />
 
-                        
+                    {/* Schedule Management */}
+                    <Route
+                        path="/events/:id/schedule"
+                        element={
+                            <ProtectedRoute>
+                                <ScheduleManagement />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                        <Route
-                            path="photos"
-                            element={<PhotosGallery />}
-                        />
+                    {/* Participants Management */}
+                    <Route
+                        path="/events/:id/participants"
+                        element={
+                            <ProtectedRoute roles={['Organizer']}>
+                                <ParticipantsManagement />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                        <Route
-                            path="upload-photo"
-                            element={
-                                <ProtectedRoute roles={['Participant']}>
-                                    <UploadPhoto />
-                                </ProtectedRoute>
-                            }
-                        />
-                    </Route>
+                    {/* Photos Gallery */}
+                    <Route
+                        path="/events/:id/photos"
+                        element={
+                            <ProtectedRoute>
+                                <PhotosGallery />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Upload Photo */}
+                    <Route
+                        path="/events/:id/upload-photo"
+                        element={
+                            <ProtectedRoute roles={['Participant']}>
+                                <UploadPhoto />
+                            </ProtectedRoute>
+                        }
+                    />
 
                     <Route path="*" element={<Navigate to="/home" replace />} />
                 </Routes>

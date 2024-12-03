@@ -1,0 +1,76 @@
+.container {
+    margin-left: 200px; /* Match Navbar width */
+    padding: var(--spacing-large);
+    max-width: 800px;
+    margin: 0 auto 50px auto; /* Center the container and add bottom margin */
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-primary);
+}
+
+.message {
+    text-align: center;
+    font-size: 1.5rem; /* 24px */
+    margin-bottom: var(--spacing-medium);
+    color: var(--primary-color);
+    font-family: var(--font-secondary);
+}
+
+.title {
+    font-size: 2rem; /* 32px */
+    margin-bottom: var(--spacing-medium);
+    color: var(--primary-color);
+    font-family: var(--font-secondary);
+    text-align: center;
+}
+
+.noPhotos {
+    font-size: 1.125rem; /* 18px */
+    color: var(--text-color-muted);
+    text-align: center;
+    margin-top: var(--spacing-medium);
+}
+
+.photosContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-medium);
+    margin-top: var(--spacing-medium);
+}
+
+.photo {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    object-fit: cover; /* Ensures the image covers the container without distortion */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.photo:hover {
+    transform: scale(1.05);
+}
+
+.error {
+    font-size: 1.125rem; /* 18px */
+    color: var(--danger-color);
+    text-align: center;
+    margin-bottom: var(--spacing-medium);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 60px; /* Match collapsed Navbar width */
+        padding: var(--spacing-medium);
+    }
+
+    .photosContainer {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .photo {
+        height: 150px; /* Adjust height for smaller screens */
+    }
+}

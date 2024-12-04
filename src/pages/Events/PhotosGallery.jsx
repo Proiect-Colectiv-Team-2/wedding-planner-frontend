@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getEventById } from '../../services/eventService';
+import { getEventById } from '../../services/eventService'; // Import new API functions
+import { addPhotoToEvent, deletePhotoFromEvent } from '../../services/photoService'; // For photo actions
 import Navbar from '../../components/Navbar';
 import styles from './PhotosGallery.module.css';
 
@@ -9,6 +10,7 @@ const PhotosGallery = () => {
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [photoFile, setPhotoFile] = useState(null); // For file upload
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -23,6 +25,35 @@ const PhotosGallery = () => {
         };
         fetchEvent();
     }, [id]);
+
+    const handleAddPhoto = async () => {
+        if (!photoFile) {
+            alert('Please select a photo to upload.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('photo', photoFile);
+        formData.append('eventId', id); // Pass event ID
+        formData.append('userId', 'user-id-placeholder'); // Replace with actual user ID
+
+        try {
+            const updatedEvent = await addPhotoToEvent(formData); // API call
+            setEvent(updatedEvent); // Update event state
+            setPhotoFile(null); // Clear the file input
+        } catch (err) {
+            alert('Failed to upload photo.');
+        }
+    };
+
+    const handleDeletePhoto = async (photoId) => {
+        try {
+            const updatedEvent = await deletePhotoFromEvent(photoId); // API call
+            setEvent(updatedEvent); // Update event state
+        } catch (err) {
+            alert('Failed to delete photo.');
+        }
+    };
 
     if (loading) {
         return (
@@ -46,15 +77,35 @@ const PhotosGallery = () => {
         <div className={styles.container}>
             <Navbar />
             <h1 className={styles.title}>Photos for {event.name}</h1>
+
+            {/* Photo Upload Section */}
+            <div className={styles.uploadSection}>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setPhotoFile(e.target.files[0])}
+                />
+                <button onClick={handleAddPhoto} disabled={!photoFile}>
+                    Upload Photo
+                </button>
+            </div>
+
             {event.photos && event.photos.length > 0 ? (
                 <div className={styles.photosContainer}>
                     {event.photos.map((photo) => (
-                        <img
-                            key={photo._id}
-                            src={photo.photoURL}
-                            alt={`Photo of ${event.name}`}
-                            className={styles.photo}
-                        />
+                        <div key={photo._id} className={styles.photoCard}>
+                            <img
+                                src={photo.photoURL}
+                                alt={`Photo of ${event.name}`}
+                                className={styles.photo}
+                            />
+                            <button
+                                onClick={() => handleDeletePhoto(photo._id)}
+                                className={styles.deleteButton}
+                            >
+                                Delete
+                            </button>
+                        </div>
                     ))}
                 </div>
             ) : (

@@ -7,7 +7,7 @@ export const addPhotoToEvent = async (formData) => {
         const response = await api.post('/api/photos', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
-        return response.data; // Updated event data
+        return response.data; // Returns { message, event }
     } catch (error) {
         console.error('Error adding photo:', error);
         throw error;

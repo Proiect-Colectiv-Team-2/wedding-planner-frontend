@@ -2,75 +2,96 @@
     margin-left: 200px; /* Match Navbar width */
     padding: var(--spacing-large);
     max-width: 800px;
-    margin: 0 auto 50px auto; /* Center the container and add bottom margin */
+    margin: 0 auto 50px auto;
     background-color: var(--secondary-color);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: var(--font-primary);
 }
 
-.message {
-    text-align: center;
-    font-size: 1.5rem; /* 24px */
-    margin-bottom: var(--spacing-medium);
-    color: var(--primary-color);
-    font-family: var(--font-secondary);
-}
-
 .title {
-    font-size: 2rem; /* 32px */
+    font-size: 2rem;
     margin-bottom: var(--spacing-medium);
     color: var(--primary-color);
     font-family: var(--font-secondary);
     text-align: center;
-}
-
-.noPhotos {
-    font-size: 1.125rem; /* 18px */
-    color: var(--text-color-muted);
-    text-align: center;
-    margin-top: var(--spacing-medium);
 }
 
 .photosContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: var(--spacing-medium);
-    margin-top: var(--spacing-medium);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust 200px to the size of your photos */
+    gap: 16px;
+    justify-items: center;
+}
+
+.photoCard {
+    width: 200px; /* Ensure this matches your photo size */
+    height: 240px; /* Extra height for the button space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    border-radius: 8px;
 }
 
 .photo {
     width: 100%;
-    height: 200px; /* Adjust height as needed */
-    object-fit: cover; /* Ensures the image covers the container without distortion */
+    height: 200px;
+    object-fit: cover;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
 }
 
-.photo:hover {
-    transform: scale(1.05);
+.uploadSquare {
+    width: 100%;
+    height: 200px; /* Matches photo size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ff00ff; /* Matches your design */
+    border-radius: 8px;
+    background-color: rgba(255, 0, 255, 0.05); /* Light background for hover */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.error {
-    font-size: 1.125rem; /* 18px */
-    color: var(--danger-color);
+.uploadSquare span {
+    font-size: 2rem;
+    color: #ff00ff;
+    font-family: var(--font-primary);
+}
+
+.uploadButton {
+    margin-top: 8px;
+    background: none;
+    border: none;
+    color: #ff00ff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.uploadButton:hover {
+    color: #cc00cc;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    color: #ff00ff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.deleteButton:hover {
+    color: #cc00cc;
+}
+
+.message, .error {
     text-align: center;
+    font-size: 1.5rem;
     margin-bottom: var(--spacing-medium);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        margin-left: 60px; /* Match collapsed Navbar width */
-        padding: var(--spacing-medium);
-    }
-
-    .photosContainer {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
-
-    .photo {
-        height: 150px; /* Adjust height for smaller screens */
-    }
 }

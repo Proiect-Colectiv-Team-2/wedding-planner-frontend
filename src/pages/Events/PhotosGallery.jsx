@@ -13,6 +13,7 @@ const PhotosGallery = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [photoFile, setPhotoFile] = useState(null); // For file upload
+    const [previewURL, setPreviewURL] = useState(null); // For photo preview
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -27,6 +28,18 @@ const PhotosGallery = () => {
         };
         fetchEvent();
     }, [id]);
+
+    const handlePhotoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setPhotoFile(file);
+
+            // Generate a preview URL
+            const reader = new FileReader();
+            reader.onload = () => setPreviewURL(reader.result);
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleAddPhoto = async () => {
         if (!photoFile) {
@@ -48,6 +61,7 @@ const PhotosGallery = () => {
             const updatedEvent = await addPhotoToEvent(formData); // API call
             setEvent(updatedEvent.event); // Update event state
             setPhotoFile(null); // Clear the file input
+            setPreviewURL(null); // Clear the preview
             alert('Photo uploaded successfully.');
         } catch (err) {
             console.error('Failed to upload photo:', err);
@@ -87,39 +101,56 @@ const PhotosGallery = () => {
             <Navbar />
             <h1 className={styles.title}>Photos for {event.name}</h1>
 
-            {/* Photo Upload Section */}
-            <div className={styles.uploadSection}>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setPhotoFile(e.target.files[0])}
-                />
-                <button onClick={handleAddPhoto} disabled={!photoFile}>
-                    Upload Photo
-                </button>
-            </div>
-
-            {event.photos && event.photos.length > 0 ? (
-                <div className={styles.photosContainer}>
-                    {event.photos.map((photo) => (
-                        <div key={photo._id} className={styles.photoCard}>
+            <div className={styles.photosContainer}>
+                {/* Photo Upload Section */}
+                {currentUser && currentUser.role === 'Participant' && (
+                    <div className={styles.photoCard}>
+                        {previewURL ? (
                             <img
-                                src={photo.photoURL}
-                                alt={`Photo of ${event.name}`}
+                                src={previewURL}
+                                alt="Preview"
                                 className={styles.photo}
                             />
+                        ) : (
+                            <label htmlFor="photoUpload" className={styles.uploadSquare}>
+                                <span>+</span>
+                            </label>
+                        )}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handlePhotoChange}
+                            id="photoUpload"
+                            style={{ display: 'none' }}
+                        />
+                        {photoFile && (
                             <button
-                                onClick={() => handleDeletePhoto(photo._id)}
-                                className={styles.deleteButton}
+                                onClick={handleAddPhoto}
+                                className={styles.uploadButton}
                             >
-                                Delete
+                                Upload
                             </button>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <p className={styles.noPhotos}>No photos available for this event.</p>
-            )}
+                        )}
+                    </div>
+                )}
+
+                {/* Render Existing Photos */}
+                {event.photos && event.photos.length > 0 && event.photos.map((photo) => (
+                    <div key={photo._id} className={styles.photoCard}>
+                        <img
+                            src={photo.photoURL}
+                            alt={`Photo of ${event.name}`}
+                            className={styles.photo}
+                        />
+                        <button
+                            onClick={() => handleDeletePhoto(photo._id)}
+                            className={styles.deleteButton}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

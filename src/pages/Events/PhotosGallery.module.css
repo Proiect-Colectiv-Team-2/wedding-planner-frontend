@@ -48,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #ff00ff; /* Matches your design */
+    border: 2px dashed #DB5375; /* Matches your design */
     border-radius: 8px;
     background-color: rgba(255, 0, 255, 0.05); /* Light background for hover */
     cursor: pointer;
@@ -57,15 +57,20 @@
 
 .uploadSquare span {
     font-size: 2rem;
-    color: #ff00ff;
+    color: #DB5375;
     font-family: var(--font-primary);
+}
+
+.uploadSquare:hover {
+    background-color: rgba(255, 0, 255, 0.1); /* Slightly darker on hover */
+    border-color: #C44C6D; /* Darker border on hover */
 }
 
 .uploadButton {
     margin-top: 8px;
     background: none;
     border: none;
-    color: #ff00ff;
+    color: #DB5375;
     font-weight: bold;
     cursor: pointer;
     font-size: 1rem;
@@ -73,13 +78,13 @@
 }
 
 .uploadButton:hover {
-    color: #cc00cc;
+    color: #C44C6D;
 }
 
 .deleteButton {
     background: none;
     border: none;
-    color: #ff00ff;
+    color: #DB5375;
     font-weight: bold;
     cursor: pointer;
     font-size: 1rem;
@@ -87,7 +92,7 @@
 }
 
 .deleteButton:hover {
-    color: #cc00cc;
+    color: #C44C6D;
 }
 
 .message, .error {

@@ -4,16 +4,26 @@ import { getEventById } from '../../services/eventService';
 import { addPhotoToEvent, deletePhotoFromEvent } from '../../services/photoService';
 import Navbar from '../../components/Navbar';
 import styles from './PhotosGallery.module.css';
-import useAuth from "../../hooks/useAuth.js";
+import useAuth from '../../hooks/useAuth.js';
 
 const PhotosGallery = () => {
-    const { id } = useParams(); // Get event ID from URL
-    const { currentUser } = useAuth(); // Access current user information
+    const { id } = useParams();
+    const { currentUser } = useAuth();
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [photoFile, setPhotoFile] = useState(null); // For file upload
-    const [previewURL, setPreviewURL] = useState(null); // For photo preview
+    const [photoFile, setPhotoFile] = useState(null);
+    const [previewURL, setPreviewURL] = useState(null);
+    const [enlargedPhoto, setEnlargedPhoto] = useState(null); // Modal state
+    
+
+    const handlePhotoClick = (photoURL) => {
+        setEnlargedPhoto(photoURL);
+    };
+    
+    const handleCloseEnlargedPhoto = () => {
+        setEnlargedPhoto(null);
+    };
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -34,7 +44,6 @@ const PhotosGallery = () => {
         if (file) {
             setPhotoFile(file);
 
-            // Generate a preview URL
             const reader = new FileReader();
             reader.onload = () => setPreviewURL(reader.result);
             reader.readAsDataURL(file);
@@ -54,14 +63,14 @@ const PhotosGallery = () => {
 
         const formData = new FormData();
         formData.append('photo', photoFile);
-        formData.append('eventId', id); // Pass event ID
-        formData.append('userId', currentUser._id); // Pass actual user ID
+        formData.append('eventId', id);
+        formData.append('userId', currentUser._id);
 
         try {
-            const updatedEvent = await addPhotoToEvent(formData); // API call
-            setEvent(updatedEvent.event); // Update event state
-            setPhotoFile(null); // Clear the file input
-            setPreviewURL(null); // Clear the preview
+            const updatedEvent = await addPhotoToEvent(formData);
+            setEvent(updatedEvent.event);
+            setPhotoFile(null);
+            setPreviewURL(null);
             alert('Photo uploaded successfully.');
         } catch (err) {
             console.error('Failed to upload photo:', err);
@@ -71,8 +80,8 @@ const PhotosGallery = () => {
 
     const handleDeletePhoto = async (photoId) => {
         try {
-            const updatedEvent = await deletePhotoFromEvent(photoId); // API call
-            setEvent(updatedEvent); // Update event state
+            const updatedEvent = await deletePhotoFromEvent(photoId);
+            setEvent(updatedEvent);
         } catch (err) {
             alert('Failed to delete photo.');
         }
@@ -102,7 +111,6 @@ const PhotosGallery = () => {
             <h1 className={styles.title}>Photos for {event.name}</h1>
 
             <div className={styles.photosContainer}>
-                {/* Photo Upload Section */}
                 {currentUser && currentUser.role === 'Participant' && (
                     <div className={styles.photoCard}>
                         {previewURL ? (
@@ -134,13 +142,13 @@ const PhotosGallery = () => {
                     </div>
                 )}
 
-                {/* Render Existing Photos */}
-                {event.photos && event.photos.length > 0 && event.photos.map((photo) => (
+                {event.photos && event.photos.map((photo) => (
                     <div key={photo._id} className={styles.photoCard}>
                         <img
                             src={photo.photoURL}
                             alt={`Photo of ${event.name}`}
-                            className={styles.photo}
+                            className={`${styles.photo} ${styles.hoverEffect}`} // Add hover effect
+                            onClick={() => handlePhotoClick(photo.photoURL)} // Open modal
                         />
                         <button
                             onClick={() => handleDeletePhoto(photo._id)}
@@ -151,6 +159,20 @@ const PhotosGallery = () => {
                     </div>
                 ))}
             </div>
+
+            {enlargedPhoto && (
+                <div className={styles.enlargedPhotoOverlay} onClick={handleCloseEnlargedPhoto}>
+                    <img
+                        src={enlargedPhoto}
+                        alt="Enlarged"
+                        className={styles.enlargedPhoto}
+                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking on the photo
+                    />
+                    <button className = {styles.closeButton} onClick={handleCloseEnlargedPhoto}>
+                        &times;
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

@@ -68,17 +68,12 @@ const EventDetail = () => {
                 <Link to={`/events/${id}/photos`} className={styles.navLink}>
                     Photos
                 </Link>
-                {currentUser && currentUser.role === 'Participant' && (
-                    <Link to={`/events/${id}/upload-photo`} className={styles.navLink}>
-                        Upload Photo
-                    </Link>
-                )}
             </nav>
 
             {/* Display Event Photos Preview (Optional) */}
             {event.photos && event.photos.length > 0 && (
                 <div className={styles.photosContainer}>
-                    {event.photos.map(photo => (
+                    {event.photos.slice(0,3).map(photo => (
                         <img
                             key={photo._id}
                             src={photo.photoURL}

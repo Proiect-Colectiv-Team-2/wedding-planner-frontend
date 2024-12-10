@@ -6,6 +6,7 @@ import styles from './MyEvents.module.css';
 import Navbar from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import { exportEventsToExcel } from '../../services/eventService';
 
 const MyEvents = () => {
     const [events, setEvents] = useState([]);
@@ -49,6 +50,14 @@ const MyEvents = () => {
         navigate(`/events/${id}`); // Navigate to EventDetail page
     };
 
+    const handleExportToExcel = async () => {
+        try {
+            await exportEventsToExcel();
+        } catch (err) {
+            alert('Failed to export events.');
+        }
+    };
+
     if (loading) {
         return (
             <div className={styles.container}>
@@ -69,8 +78,11 @@ const MyEvents = () => {
 
     return (
         <div className={styles.container}>
-            <Navbar />
+            <Navbar/>
             <h1 className={styles.title}>My Events</h1>
+            <button className={styles.exportButton} onClick={handleExportToExcel}>
+                Export Events to Excel
+            </button>
             {events.length === 0 ? (
                 <p className={styles.message}>No events found.</p>
             ) : (

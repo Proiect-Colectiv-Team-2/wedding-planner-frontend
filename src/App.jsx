@@ -10,21 +10,7 @@ import ParticipantsManagement from "./pages/Events/ParticipantsManagement.jsx";
 import ScheduleManagement from "./pages/Events/ScheduleManagement.jsx";
 import PhotosGallery from "./pages/Events/PhotosGallery.jsx";
 import UploadPhoto from "./pages/Events/UploadPhoto.jsx";
-import useAuth from "./hooks/useAuth.js";
-
-const ProtectedRoute = ({ children, roles }) => {
-    const { currentUser } = useAuth();
-
-    if (!currentUser) {
-        return <Navigate to="/" replace />;
-    }
-
-    if (roles && !roles.includes(currentUser.role)) {
-        return <Navigate to="/home" replace />;
-    }
-
-    return children;
-};
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 function App() {
     return (
@@ -71,7 +57,6 @@ function App() {
                         }
                     />
 
-                    {/* Event Detail */}
                     <Route
                         path="/events/:id"
                         element={
@@ -81,7 +66,6 @@ function App() {
                         }
                     />
 
-                    {/* Schedule Management */}
                     <Route
                         path="/events/:id/schedule"
                         element={
@@ -91,7 +75,6 @@ function App() {
                         }
                     />
 
-                    {/* Participants Management */}
                     <Route
                         path="/events/:id/participants"
                         element={
@@ -101,7 +84,6 @@ function App() {
                         }
                     />
 
-                    {/* Photos Gallery */}
                     <Route
                         path="/events/:id/photos"
                         element={
@@ -111,7 +93,6 @@ function App() {
                         }
                     />
 
-                    {/* Upload Photo */}
                     <Route
                         path="/events/:id/upload-photo"
                         element={

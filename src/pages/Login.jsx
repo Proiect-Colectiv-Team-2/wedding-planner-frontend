@@ -1,48 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuth from "../hooks/useAuth";
-import { getUsers, createUser } from '../services/userService';
-
+import useAuth from '../hooks/useAuth';
+import { loginUser, createUser } from '../services/authService';
 import styles from './Login.module.css';
 
 const Login = () => {
-    const [users, setUsers] = useState([]);
-    const [selectedUserId, setSelectedUserId] = useState('');
-    const { login } = useAuth(); // Use custom hook
-    const navigate = useNavigate();
-
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [newUser, setNewUser] = useState({
         email: '',
         password: '',
+        passwordConfirm: '',
         firstName: '',
         lastName: '',
         role: 'Participant',
     });
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const userList = await getUsers();
-                setUsers(userList);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        };
-        fetchUsers();
-    }, []);
-
-    const handleUserSelect = (e) => {
-        setSelectedUserId(e.target.value);
-    };
-
-    const handleLogin = () => {
-        const user = users.find((u) => u._id === selectedUserId);
-        if (user) {
-            login(user);
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const { user, token } = await loginUser(email, password);
+            login(user, token); // Pass user and token to the login function
             navigate('/home');
+        } catch (err) {
+            setError(err.message || 'Failed to login.');
         }
     };
+
 
     const handleInputChange = (e) => {
         setNewUser({
@@ -54,40 +41,55 @@ const Login = () => {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            const newUserResponse = await createUser(newUser);
-            alert('User was added');
-            setUsers((prevUsers) => [...prevUsers, newUserResponse]);
+            const { user, token } = await createUser(newUser);
+            login(user, token); // Log in the newly created user
+            alert('User created successfully.');
+            navigate('/home');
             setNewUser({
                 email: '',
                 password: '',
+                passwordConfirm: '',
                 firstName: '',
                 lastName: '',
                 role: 'Participant',
             });
-        } catch (error) {
-            console.error('Error creating user:', error);
+        } catch (err) {
+            setError(err.message || 'Failed to create user.');
         }
     };
+
 
     return (
         <div className={styles.pageBackground}>
             <div className={styles.loginContainer}>
-                <h2 className={styles.heading}>Select User</h2>
-                <div className={styles.loginButtonGroup}>
-                    <select value={selectedUserId} onChange={handleUserSelect} className={styles.select}>
-                        <option value="" disabled>
-                            -- Select a user --
-                        </option>
-                        {users.map((user) => (
-                            <option key={user._id} value={user._id}>
-                                {user.email} ({user.role})
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={handleLogin} disabled={!selectedUserId} className={styles.button}>
+                <h2 className={styles.heading}>Login</h2>
+                <form onSubmit={handleLogin}>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <button type="submit" className={styles.button}>
                         Login
                     </button>
-                </div>
+                </form>
+
+                {error && <p className={styles.error}>{error}</p>}
 
                 <h2 className={styles.heading}>Create New User</h2>
                 <form onSubmit={handleCreateUser}>
@@ -108,6 +110,17 @@ const Login = () => {
                             name="password"
                             placeholder="Password"
                             value={newUser.password}
+                            onChange={handleInputChange}
+                            required
+                            className={styles.input}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <input
+                            type="password"
+                            name="passwordConfirm"
+                            placeholder="Password Confirm"
+                            value={newUser.passwordConfirm}
                             onChange={handleInputChange}
                             required
                             className={styles.input}
@@ -145,7 +158,7 @@ const Login = () => {
                         </select>
                     </div>
                     <button type="submit" className={styles.button}>
-                        Add User
+                        Create User
                     </button>
                 </form>
             </div>

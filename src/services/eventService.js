@@ -1,4 +1,5 @@
 import api from "./api.js";
+import axios from 'axios';
 
 // Fetch all events
 export const getEvents = async () => {
@@ -44,5 +45,22 @@ export const updateEvent = async (id, updatedData) => {
     } catch (error) {
         console.error('Error updating event:', error);
         throw error;
+    }
+};
+
+//Export events to Excel
+export const exportEventsToExcel = async () => {
+    try {
+        const response = await axios.get('/api/events/export', { responseType: 'blob' });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Events.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+    } catch (err) {
+        console.error('Error exporting events:', err);
+        throw err;
     }
 };

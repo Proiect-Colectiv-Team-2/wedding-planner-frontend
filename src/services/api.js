@@ -1,9 +1,22 @@
-//Axios instance or fetch wrapper for API requests.
-
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3000', // Update with your backend URL
 });
+
+// Add an interceptor to attach the token from the cookie
+api.interceptors.request.use(
+    (config) => {
+        const token = Cookies.get('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 export default api;

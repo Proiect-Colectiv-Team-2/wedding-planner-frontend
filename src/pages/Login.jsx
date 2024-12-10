@@ -22,13 +22,14 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const user = await loginUser(email, password);
-            login(user); // Set current user in AuthContext
+            const { user, token } = await loginUser(email, password);
+            login(user, token); // Pass user and token to the login function
             navigate('/home');
         } catch (err) {
             setError(err.message || 'Failed to login.');
         }
     };
+
 
     const handleInputChange = (e) => {
         setNewUser({
@@ -40,8 +41,10 @@ const Login = () => {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            await createUser(newUser);
+            const { user, token } = await createUser(newUser);
+            login(user, token); // Log in the newly created user
             alert('User created successfully.');
+            navigate('/home');
             setNewUser({
                 email: '',
                 password: '',
@@ -54,6 +57,7 @@ const Login = () => {
             setError(err.message || 'Failed to create user.');
         }
     };
+
 
     return (
         <div className={styles.pageBackground}>

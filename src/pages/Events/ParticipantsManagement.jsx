@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getEventById } from '../../services/eventService';
 import { sendInvitationEmail } from '../../services/invitationService'; // Import the service
@@ -36,20 +36,31 @@ const ParticipantsManagement = () => {
     }, [id]);
 
     const handleInvite = async (e) => {
-        e.preventDefault();
-        setInviteLoading(true);
-        setInviteMessage('');
+        e.preventDefault(); // Prevent form submission default
+        setInviteLoading(true); // Set loading state for the button
+        setInviteMessage(''); // Clear any previous messages
+
         try {
-            await sendInvitationEmail(emailToInvite, id);
-            setInviteMessage(`Invitation sent to ${emailToInvite}`);
-            // Fetch updated participants list
-            const updatedEventData = await getEventById(id);
-            setEvent(updatedEventData);
-            setParticipants(updatedEventData.invitations || []);
-            setEmailToInvite('');
+            // Trigger the API request
+            const response = await sendInvitationEmail(emailToInvite, id);
+
+            if (response) {
+                setInviteMessage(`Invitation sent to ${emailToInvite}`);
+
+                // Add the new participant to the state directly
+                const newParticipant = {
+                    email: emailToInvite,
+                    status: 'Pending',
+                    _id: response.invitations[0]?._id || new Date().getTime(), // Use the response ID or a temp unique ID
+                };
+                setParticipants((prevParticipants) => [...prevParticipants, newParticipant]);
+
+                // Clear the input field
+                setEmailToInvite('');
+            }
         } catch (error) {
             setInviteMessage('Failed to send invitation');
-            console.error(error);
+            console.error('Error:', error);
         } finally {
             setInviteLoading(false);
         }

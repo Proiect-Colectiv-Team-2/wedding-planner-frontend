@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import './AuthCotext.css';
 
 export const AuthContext = createContext();
 
@@ -39,7 +40,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Show loading indicator until user state is determined
+        return <div className='loading__screen'>
+            <p>
+                Loading...
+            </p>
+        </div>;
     }
 
     return (

@@ -5,6 +5,16 @@ import { loginUser, createUser } from '../services/authService';
 import styles from './Login.module.css';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    const { currentUser } = useAuth();
+
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/home');
+        }
+    }, [currentUser, navigate]);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [newUser, setNewUser] = useState({
@@ -16,7 +26,6 @@ const Login = () => {
         role: 'Participant',
     });
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const { login } = useAuth();
 
     const handleLogin = async (e) => {

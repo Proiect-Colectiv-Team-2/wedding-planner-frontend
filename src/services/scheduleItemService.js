@@ -9,6 +9,6 @@ export const getScheduleItems = async () => {
 };
 
 export const deleteScheduleItem = async (scheduleItemId) => {
-    const response = await api.delete(/api/schedule-items/${scheduleItemId});
+    const response = await api.delete(`/api/schedule-items/${scheduleItemId}`);
     return response.data;
 }

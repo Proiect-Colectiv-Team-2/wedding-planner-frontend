@@ -5,6 +5,16 @@ import { loginUser, createUser } from '../services/authService';
 import styles from './Login.module.css';
 
 const Login = () => {
+
+    const navigate = useNavigate();
+    const { currentUser } = useAuth();
+
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/home');
+        }
+    }, [currentUser, navigate]);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [newUser, setNewUser] = useState({
@@ -16,19 +26,19 @@ const Login = () => {
         role: 'Participant',
     });
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const { login } = useAuth();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const user = await loginUser(email, password);
-            login(user); // Set current user in AuthContext
+            const { user, token } = await loginUser(email, password);
+            login(user, token); // Pass user and token to the login function
             navigate('/home');
         } catch (err) {
             setError(err.message || 'Failed to login.');
         }
     };
+
 
     const handleInputChange = (e) => {
         setNewUser({
@@ -40,8 +50,10 @@ const Login = () => {
     const handleCreateUser = async (e) => {
         e.preventDefault();
         try {
-            await createUser(newUser);
+            const { user, token } = await createUser(newUser);
+            login(user, token); // Log in the newly created user
             alert('User created successfully.');
+            navigate('/home');
             setNewUser({
                 email: '',
                 password: '',
@@ -54,6 +66,7 @@ const Login = () => {
             setError(err.message || 'Failed to create user.');
         }
     };
+
 
     return (
         <div className={styles.pageBackground}>

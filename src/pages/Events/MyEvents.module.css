@@ -30,6 +30,7 @@
 }
 
 .eventList {
+    margin-top: var(--spacing-large);
     list-style: none;
     padding: 0;
     display: grid;
@@ -114,6 +115,25 @@
 
 .deleteButton:hover {
     background-color: var(--highlight-hover-color);}
+
+.exportButton {
+    margin-bottom: var(--spacing-large);
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    background-color: var(--primary-color);
+    color: var(--text-color-primary);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+.exportButton:hover {
+    background-color: var(--hover-color-primary);
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
-import { getScheduleItems } from "../../services/scheduleItemService";
+import { getScheduleItems, deleteScheduleItem } from "../../services/scheduleItemService";
 import ScheduleItem from "../../components/ScheduleItem";
 import useAuth from "../../hooks/useAuth";
 import styles from './EventDetail.module.css';
@@ -12,6 +12,18 @@ const ScheduleManagement = () => {
     const [scheduleItems, setScheduleItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+
+    const handleDelete = async scheduleItemId => {
+
+        try {
+
+            await deleteScheduleItem(scheduleItemId);
+            setScheduleItems(scheduleItems.filter(item => item._id.toString() !== scheduleItemId));
+        } catch (err) {
+            setError('Could not delete schedule item');
+        }
+    }
 
     useEffect(()=>
     {
@@ -61,7 +73,7 @@ const ScheduleManagement = () => {
                         ) : (
                         scheduleItems.map(item => (
                             <div key={item._id}>
-                                <ScheduleItem data={item} />
+                                <ScheduleItem data={item} key={item._id} handleDelete={handleDelete} />
                             </div>
                             ))
                         )}

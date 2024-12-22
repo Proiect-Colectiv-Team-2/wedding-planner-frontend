@@ -1,8 +1,8 @@
 .container {
-    margin-left: 200px; /* Match Navbar width */
+    margin-left: 200px; /* If Navbar is 200px wide */
     padding: var(--spacing-large);
     max-width: 800px;
-    margin: 0 auto 50px auto; /* Center the container and add bottom margin */
+    margin: 0 auto 50px auto;
     background-color: var(--secondary-color);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -18,7 +18,7 @@
 
 .error {
     text-align: center;
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem;
     color: var(--danger-color);
     margin-top: var(--spacing-medium);
 }
@@ -31,25 +31,53 @@
     text-align: center;
 }
 
+/* Participant list styling */
 .participantsList {
-    list-style-type: none;
-    padding: 0;
+    list-style: none;
     margin: var(--spacing-medium) 0;
+    padding: 0;
 }
 
 .participantItem {
+    display: flex;
+    justify-content: space-between; /* Email on left, Status on right */
+    align-items: center;
     padding: var(--spacing-small);
     border-bottom: 1px solid var(--border-color);
     font-size: 1rem;
     color: var(--text-color-primary);
 }
 
+/* Left side: participant's email */
+.participantEmail {
+    margin-right: auto;
+}
+
+/* Right side: status label */
+.statusLabel {
+    margin-left: auto;
+    font-weight: bold;
+}
+
+/* Optional color-coding */
+.confirmed .statusLabel {
+    color: var(--highlight-color); /* Tertiary highlight color */
+}
+.declined .statusLabel {
+    color: var(--text-color-muted); /* Bright red for errors */
+}
+.pending .statusLabel {
+    color: var(--text-color-primary); /* Subtle darker shade for pending */
+}
+
+
+/* Invite container, forms, etc. */
 .inviteContainer {
     margin-top: var(--spacing-large);
 }
 
 .subtitle {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.5rem;
     margin-bottom: var(--spacing-medium);
     color: var(--primary-color);
     text-align: center;
@@ -80,9 +108,12 @@
     border-radius: 4px;
     cursor: pointer;
 }
-
 .inviteButton:hover {
     background-color: var(--highlight-color-dark);
+}
+.inviteButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .inviteMessage {
@@ -92,6 +123,7 @@
     text-align: center;
 }
 
+/* CSV Upload Button */
 .uploadButton {
     padding: 10px 15px;
     font-size: 14px;
@@ -102,12 +134,11 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 .uploadButton:hover {
-    background-color: var(--highlight-color-dark);
+    background-color: var(--highlight-hover-color);
 }
-
 .uploadButton:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.5);
 }
+

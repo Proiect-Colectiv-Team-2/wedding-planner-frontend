@@ -13,3 +13,20 @@ export const sendInvitationEmail = async (email, eventId) => {
         throw error;
     }
 };
+
+export const getInvitationDetails = async (token) => {
+    const response = await api.get(`/api/invitations/${token}/details`);
+    return response.data;
+};
+
+export const confirmInvitationWithUser = async (token, userId) => {
+    // POST /api/invitations/confirm/:token with { userId } in body
+    const response = await api.post(`/api/invitations/confirm/${token}`, { userId });
+    return response.data; // { message, invitation }
+};
+
+
+export const declineInvitation = async (token) => {
+    const response = await api.get(`/api/invitations/decline/${token}`);
+    return response.data;
+};

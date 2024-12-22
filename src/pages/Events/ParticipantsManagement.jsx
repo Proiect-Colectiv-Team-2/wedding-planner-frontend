@@ -18,6 +18,7 @@ const ParticipantsManagement = () => {
     // For the invite functionality
     const [emailToInvite, setEmailToInvite] = useState('');
     const [inviteMessage, setInviteMessage] = useState('');
+    const [fileUploadMessage, setFileUploadMessage] = useState(''); // Message for file upload
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -66,6 +67,86 @@ const ParticipantsManagement = () => {
         }
     };
 
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            const content = event.target.result;
+
+            try {
+                const emails = parseCSV(content);
+
+                setFileUploadMessage('');
+                setInviteLoading(true);
+
+                const failedEmails = [];
+
+                for (const email of emails) {
+                    try {
+                        const response = await sendInvitationEmail(email, id);
+                        if (response) {
+                            const newParticipant = {
+                                email,
+                                status: 'Pending',
+                                _id:
+                                    response.invitations[0]?._id ||
+                                    new Date().getTime(), // Use the response ID or a temp unique ID
+                            };
+                            setParticipants((prevParticipants) => [
+                                ...prevParticipants,
+                                newParticipant,
+                            ]);
+                        }
+                    } catch (err) {
+                        failedEmails.push(email);
+                    }
+                }
+
+                setFileUploadMessage(
+                    `File processed! ${
+                        failedEmails.length > 0
+                            ? `Failed to send to: ${failedEmails.join(', ')}`
+                            : 'All invitations sent successfully.'
+                    }`
+                );
+            } catch (err) {
+                setFileUploadMessage(
+                    'Failed to parse the CSV file. Please ensure it is properly formatted.'
+                );
+                console.error('CSV Parse Error:', err);
+            } finally {
+                setInviteLoading(false);
+            }
+        };
+
+        reader.onerror = () => {
+            setFileUploadMessage('Failed to read the file. Please try again.');
+        };
+
+        reader.readAsText(file);
+    };
+
+    const parseCSV = (data) => {
+        const lines = data.split('\n');
+        const emails = [];
+
+        for (const line of lines) {
+            const [email] = line.split(',');
+            if (email && validateEmail(email.trim())) {
+                emails.push(email.trim());
+            }
+        }
+
+        return emails;
+    };
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     if (loading) {
         return (
             <div className={styles.container}>
@@ -102,6 +183,34 @@ const ParticipantsManagement = () => {
             {currentUser && currentUser.role === 'Organizer' && (
                 <div className={styles.inviteContainer}>
                     <h2 className={styles.subtitle}>Invite Participants</h2>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            marginBottom: '20px',
+                        }}
+                    >
+                        <input
+                            type="file"
+                            accept=".csv"
+                            onChange={handleFileUpload}
+                            className={styles.uploadButton}
+                            style={{
+                                marginLeft: '20px', // Shift the button slightly to the right
+                            }}
+                        />
+                    </div>
+                    {fileUploadMessage && (
+                        <p
+                            style={{
+                                marginBottom: '20px',
+                                color: 'white',
+                                textAlign: 'center',
+                            }}
+                        >
+                            {fileUploadMessage}
+                        </p>
+                    )}
                     <form onSubmit={handleInvite} className={styles.inviteForm}>
                         <input
                             type="email"

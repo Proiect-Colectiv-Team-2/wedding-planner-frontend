@@ -11,6 +11,7 @@ import ScheduleManagement from "./pages/Events/ScheduleManagement.jsx";
 import PhotosGallery from "./pages/Events/PhotosGallery.jsx";
 import UploadPhoto from "./pages/Events/UploadPhoto.jsx";
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import Invitation from "./pages/Invitation.jsx";
 
 function App() {
     return (
@@ -101,6 +102,9 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+
+                    <Route path="/invite/:token" element={<Invitation />} />
+
 
                     <Route path="*" element={<Navigate to="/home" replace />} />
                 </Routes>

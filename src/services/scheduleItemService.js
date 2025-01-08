@@ -12,3 +12,8 @@ export const deleteScheduleItem = async (scheduleItemId) => {
     const response = await api.delete(`/api/schedule-items/${scheduleItemId}`);
     return response.data;
 }
+
+export const addScheduleItem = async (data) => {
+    const response = await api.post(`/api/schedule-items`, data);
+    return response.data;
+}

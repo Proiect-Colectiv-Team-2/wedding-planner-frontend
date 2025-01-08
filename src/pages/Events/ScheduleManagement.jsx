@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
-import { getScheduleItems, deleteScheduleItem } from "../../services/scheduleItemService";
+import { getScheduleItems, deleteScheduleItem, addScheduleItem } from "../../services/scheduleItemService";
 import ScheduleItem from "../../components/ScheduleItem";
 import useAuth from "../../hooks/useAuth";
 import styles from './EventDetail.module.css';
+import ScheduleForm from "../../components/ScheduleForm";
 
 const ScheduleManagement = () => {
     const { id } = useParams();
@@ -12,6 +13,7 @@ const ScheduleManagement = () => {
     const [scheduleItems, setScheduleItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showForm, setShowForm] = useState(false);
 
 
     const handleDelete = async scheduleItemId => {
@@ -22,6 +24,27 @@ const ScheduleManagement = () => {
             setScheduleItems(scheduleItems.filter(item => item._id.toString() !== scheduleItemId));
         } catch (err) {
             setError('Could not delete schedule item');
+        }
+    }
+
+
+    const handleAddScheduleItem = async (data) => {
+        try {
+            const response = await addScheduleItem(data);
+            console.log(response);
+            if (response.data.scheduleItem) {
+                scheduleItems.push();
+                setScheduleItems([...scheduleItems, response.data.scheduleItem]);
+                alert(response.message);
+                setShowForm(false);
+                return true;
+            } else {
+                setError(response.data.message);
+                return false;
+            }
+        } catch (err) {
+            setError('Could not add schedule item');
+            return false;
         }
     }
 
@@ -68,6 +91,9 @@ const ScheduleManagement = () => {
             <Navbar />
                 <div className={styles.title}>
                     <h1>Schedule for Event</h1>
+                    {!showForm && (<button onClick={() => setShowForm(true)} >Add new Schedule Item</button>)}
+                    {showForm && (<button onClick={() => setShowForm(false)} >Cancel</button>)}
+                    {showForm && (<ScheduleForm handleAddScheduleItem={handleAddScheduleItem} />)}
                     { scheduleItems.length === 0 ? (
                             <p>No schedule items available for this event.</p>
                         ) : (

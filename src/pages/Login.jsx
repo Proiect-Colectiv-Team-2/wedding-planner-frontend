@@ -170,6 +170,7 @@ const Login = () => {
                         Create User
                     </button>
                 </form>
+                <p className={styles.resetPassword}>Forgot password? Reset <span className={styles.resetPasswordBtn} onClick={() => navigate("/reset-password")}>HERE</span></p>
             </div>
         </div>
     );

@@ -25,3 +25,31 @@ export const createUser = async (userData) => {
         throw error.response?.data || 'Error creating user.';
     }
 };
+
+
+export const sendRserPassword = async (email) => {
+    try {
+        const response = await api.post('/api/auth/reset-password', { email });
+        return {
+            message: response.data.message
+        }
+    } catch (error) {
+        throw error.response?.data || 'Error sending reseting password mail.';
+    }
+}
+
+
+export const resetPassword = async (token, data) => {
+    try {
+        const response = await api.patch('/api/auth/reset-password', data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return {
+            message: response.data.message
+        }
+    } catch (error) {
+        throw error.response?.data || 'Error reseting password.';
+    }
+}

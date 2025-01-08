@@ -6,19 +6,22 @@
     align-items: center;
     justify-content: center;
     padding: var(--spacing-large);
-    font-family: var(--font-primary); /* Apply primary font */
+    font-family: var(--font-primary);
+    /* Apply primary font */
 }
 
 /* Container for the Login Page */
 .loginContainer {
-    width: 400px; /* Set a fixed width */
+    width: 400px;
+    /* Set a fixed width */
     margin: var(--spacing-large) auto;
     padding: var(--spacing-large);
     background-color: var(--primary-color);
     border-radius: 8px;
     color: var(--text-color-primary);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: var(--font-primary); /* Apply primary font */
+    font-family: var(--font-primary);
+    /* Apply primary font */
 }
 
 /* Heading Styles */
@@ -34,7 +37,8 @@
 
 /* Form Styles */
 .formGroup {
-    margin-bottom: var(--spacing-medium); /* Increase spacing between input fields */
+    margin-bottom: var(--spacing-medium);
+    /* Increase spacing between input fields */
 }
 
 .label {
@@ -48,13 +52,15 @@
 .input,
 .select {
     width: 100%;
-    min-width: 0; /* Ensure inputs don't shrink or expand */
+    min-width: 0;
+    /* Ensure inputs don't shrink or expand */
     padding: var(--spacing-small);
     border: 1px solid var(--secondary-color);
     border-radius: 6px;
     font-family: var(--font-primary);
     color: var(--text-color-secondary);
-    background-color: var(--input-background-color); /* Use input background variable */
+    background-color: var(--input-background-color);
+    /* Use input background variable */
     transition: border-color 0.3s ease;
 }
 
@@ -112,4 +118,13 @@
 
 .highlight:hover {
     background-color: var(--highlight-hover-color);
+}
+
+
+.resetPassword {
+    margin-top:15px;
+}
+
+.resetPasswordBtn:hover {
+    cursor: pointer;
 }

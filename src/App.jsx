@@ -12,6 +12,7 @@ import PhotosGallery from "./pages/Events/PhotosGallery.jsx";
 import UploadPhoto from "./pages/Events/UploadPhoto.jsx";
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Invitation from "./pages/Invitation.jsx";
+import ResetPassword from './pages/ResetPassword.jsx';
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<Login />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
 
                     {/* Protected Routes */}
                     <Route

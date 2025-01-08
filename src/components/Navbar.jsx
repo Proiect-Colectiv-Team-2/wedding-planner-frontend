@@ -18,6 +18,11 @@ const Navbar = () => {
         navigate('/'); // Redirect to Login page after logout
     };
 
+
+    const handleResetPassword = () => {
+        navigate("/reset-password");
+    };
+
     return (
         <div className={styles.navbar}>
             {/* User Information */}
@@ -55,6 +60,7 @@ const Navbar = () => {
 
             {/* Action Links */}
             <div className={styles.actionLinks}>
+                <button className={styles.actionButton} onClick={handleResetPassword}>Reset Password</button>
                 <button className={styles.actionButton} onClick={handleLogout}>Log Out</button>
             </div>
         </div>

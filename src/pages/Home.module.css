@@ -157,18 +157,125 @@
 /* Move the text more to the right in the Reset Password section */
 .resetPasswordBtn {
     display: flex;
-    justify-content: flex-start; /* Default positioning */
+    justify-content: flex-start;
+    /* Default positioning */
     gap: var(--spacing-small);
 }
 
 .resetPasswordBtn:hover {
-    justify-content: flex-end; /* Move text to the right */
+    justify-content: flex-end;
+    /* Move text to the right */
 }
 
 .resetPasswordBtn .highlight {
-    display: none; /* Hide highlight on hover */
+    display: none;
+    /* Hide highlight on hover */
 }
 
 .resetPasswordBtn:hover .highlight {
-    display: inline-block; /* Show highlight on hover */
+    display: inline-block;
+    /* Show highlight on hover */
+}
+
+
+
+
+/*  responsiveness */
+
+.pageWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--spacing-large);
+    gap: var(--spacing-medium);
+}
+
+.mainContent {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.container {
+    flex: 1;
+    min-width: 300px; /* Minimum width to ensure responsiveness */
+    max-width: 800px;
+}
+
+.carousel {
+    flex: 2;
+    min-width: 300px;
+    max-width: 100%;
+}
+
+.carouselContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding:30px;
+}
+
+.carouselContainer img {
+    max-width: 95%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.headerText {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: var(--spacing-medium);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pageWrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mainContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    .carousel {
+        max-width: 100%;
+    }
+
+    .carouselContainer img {
+        width: 90%;
+    }
+
+    .carouselContainer p {
+        font-size:2rem;
+        margin-bottom:0;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerText {
+        font-size: 1.2rem;
+    }
+
+    .carouselContainer img {
+        width: 80%;
+    }
+
+    .carouselContainer p {
+        font-size:1rem;
+        margin-bottom:0;
+    }
 }

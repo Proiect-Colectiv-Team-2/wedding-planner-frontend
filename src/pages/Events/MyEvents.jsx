@@ -30,6 +30,11 @@ const MyEvents = () => {
     }, []);
 
     const handleDeleteEvent = async (id) => {
+
+        if (!canEditAndDelete(event)) {
+            return;
+        }
+
         if (window.confirm('Are you sure you want to delete this event?')) {
             try {
                 await deleteEvent(id);  // Call the delete function from the service
@@ -58,6 +63,10 @@ const MyEvents = () => {
         }
     };
 
+    const canEditAndDelete = (event) => {
+        return currentUser.role === 'Organizer' && event.organizers.some(org => org._id === currentUser._id);
+    }
+
     if (loading) {
         return (
             <div className={styles.container}>
@@ -76,9 +85,11 @@ const MyEvents = () => {
         );
     }
 
+
+
     return (
         <div className={styles.container}>
-            <Navbar/>
+            <Navbar />
             <h1 className={styles.title}>My Events</h1>
             <button className={styles.exportButton} onClick={handleExportToExcel}>
                 Export Events to Excel
@@ -105,7 +116,7 @@ const MyEvents = () => {
                                 >
                                     View
                                 </button>
-                                {currentUser.role === 'Organizer' && (
+                                {canEditAndDelete(event) && (
                                     <>
                                         <button
                                             className={styles.editButton}

@@ -12,7 +12,7 @@ const isValidName = (name) => /^[A-Za-z0-9\s]+$/.test(name) && name.length <= 10
 const isValidAddress = (address) => /^[A-Za-z0-9\s,./-]+$/.test(address) && address.length <= 100;
 
 const EditEvent = () => {
-    const {id} = useParams(); // Get the event ID from the URL
+    const { id } = useParams(); // Get the event ID from the URL
     const [eventData, setEventData] = useState({
         name: '',
         startDateTime: '',
@@ -24,10 +24,17 @@ const EditEvent = () => {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
 
+    const canEditAndDelete = (event) => {
+        return currentUser.role === 'Organizer' && event.organizers.some(org => org._id === currentUser._id);
+    }
+
     useEffect(() => {
         const fetchEvent = async () => {
             try {
                 const event = await getEventById(id);
+                if (!canEditAndDelete(event)) {
+                    navigate('/myevents');
+                }
                 setEventData({
                     name: event.name || '',
                     startDateTime: event.startDateTime ? event.startDateTime.substring(0, 16) : '',

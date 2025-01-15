@@ -7,6 +7,8 @@ import useAuth from "../../hooks/useAuth";
 import styles from './EventDetail.module.css';
 import ScheduleForm from "../../components/ScheduleForm";
 
+import './ScheduleManagement.css'
+
 const ScheduleManagement = () => {
     const { id } = useParams();
     const { currentUser } = useAuth(); // Access current user information
@@ -48,19 +50,15 @@ const ScheduleManagement = () => {
         }
     }
 
-    useEffect(()=>
-    {
-        const fetchEvent = async () =>
-        {
-            try
-            {
+    useEffect(() => {
+        const fetchEvent = async () => {
+            try {
                 const scheduleItemsData = await getScheduleItems();
                 const filteredScheduleItemsData = scheduleItemsData.filter(item => item.event._id == id)
                 setScheduleItems(filteredScheduleItemsData);
                 setLoading(false);
             }
-            catch( err )
-            {
+            catch (err) {
                 setError('Could not load schedule items');
                 setLoading(false);
             }
@@ -89,20 +87,23 @@ const ScheduleManagement = () => {
     return (
         <div>
             <Navbar />
-                <div className={styles.title}>
-                    <h1>Schedule for Event</h1>
+            <div className={`${styles.title} schedule__item__container`}>
+                <h1>Schedule for Event</h1>
+                <div className={styles.scheduleContainer}>
+
                     {!showForm && (<button onClick={() => setShowForm(true)} >Add new Schedule Item</button>)}
                     {showForm && (<button onClick={() => setShowForm(false)} >Cancel</button>)}
                     {showForm && (<ScheduleForm handleAddScheduleItem={handleAddScheduleItem} />)}
-                    { scheduleItems.length === 0 ? (
-                            <p>No schedule items available for this event.</p>
-                        ) : (
-                        scheduleItems.map(item => (
-                            <div key={item._id}>
-                                <ScheduleItem data={item} key={item._id} handleDelete={handleDelete} />
-                            </div>
-                            ))
-                        )}
+                </div>
+                {scheduleItems.length === 0 ? (
+                    <p>No schedule items available for this event.</p>
+                ) : (
+                    scheduleItems.map(item => (
+                        <div key={item._id}>
+                            <ScheduleItem data={item} key={item._id} handleDelete={handleDelete} />
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );

@@ -118,3 +118,15 @@
         height: 150px; /* Adjust height for smaller screens */
     }
 }
+
+
+.scheduleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px;
+}
+
+.scheduleContainer button {
+    border-radius:10px;
+}

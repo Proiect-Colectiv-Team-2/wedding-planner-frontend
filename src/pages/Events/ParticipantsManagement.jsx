@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getEventById } from '../../services/eventService';
 import { sendInvitationEmail } from '../../services/invitationService';
 import Navbar from '../../components/Navbar';
@@ -20,12 +20,16 @@ const ParticipantsManagement = () => {
     const [inviteMessage, setInviteMessage] = useState('');
     const [fileUploadMessage, setFileUploadMessage] = useState('');
     const [fileName, setFileName] = useState('Upload CSV');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEvent = async () => {
             try {
                 const eventData = await getEventById(id);
                 setEvent(eventData);
+                if (!isOrganizer(event)) {
+                    navigate(`/event/${event._id}`);
+                }
                 setParticipants(eventData.invitations || []);
             } catch (err) {
                 setError('Failed to fetch event participants.');
@@ -35,6 +39,12 @@ const ParticipantsManagement = () => {
         };
         fetchEvent();
     }, [id]);
+
+    const isOrganizer = (event) => {
+        return currentUser.role === 'Organizer' && event.organizers.some(org => org._id === currentUser._id);
+    }
+
+    console.log(event);
 
     const handleInvite = async (e) => {
         e.preventDefault();
@@ -92,10 +102,9 @@ const ParticipantsManagement = () => {
                 }
 
                 setFileUploadMessage(
-                    `File processed! ${
-                        failedEmails.length > 0
-                            ? `Failed to send to: ${failedEmails.join(', ')}`
-                            : 'All invitations sent successfully.'
+                    `File processed! ${failedEmails.length > 0
+                        ? `Failed to send to: ${failedEmails.join(', ')}`
+                        : 'All invitations sent successfully.'
                     }`
                 );
             } catch (err) {

@@ -1,0 +1,34 @@
+.schedule__item__container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.schedule__item__container button {
+    border-radius:5px;
+    background-color: #657d8e;
+    border:0;
+    padding:0px;
+    width:100%; 
+}
+
+.schedule__item__container form {
+    max-width:500px;
+    min-width: 300px;
+}
+
+
+
+.schedule__item__container input, .schedule__item__container textarea {
+    width: 100%;
+    border-radius: 5px;
+    height:30px;
+    border:0;
+    margin-bottom:15px;
+}
+
+.schedule__item__container form > div {
+    display:flex;
+    flex-direction: column;
+}

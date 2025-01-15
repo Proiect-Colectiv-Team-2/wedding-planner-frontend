@@ -27,6 +27,10 @@ const EventDetail = () => {
         fetchEvent();
     }, [id]);
 
+    const isOrganizer = (event) => {
+        return currentUser.role === 'Organizer' && event.organizers.some(org => org._id === currentUser._id);
+    }
+
     if (loading) {
         return (
             <div className={styles.container}>
@@ -57,7 +61,7 @@ const EventDetail = () => {
 
             {/* Navigation for Event Subsections */}
             <nav className={styles.subNav}>
-                {currentUser && currentUser.role === 'Organizer' && (
+                {currentUser && isOrganizer(event) && (
                     <Link to={`/events/${id}/participants`} className={styles.navLink}>
                         Participants
                     </Link>

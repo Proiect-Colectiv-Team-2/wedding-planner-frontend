@@ -6,7 +6,7 @@ import useAuth from '../../hooks/useAuth';
 import styles from './EditEvent.module.css';
 
 // Function to validate the name
-const isValidName = (name) => /^[A-Za-z0-9\s]+$/.test(name) && name.length <= 100;
+const isValidName = (name) => /^[A-Za-z0-9\s&,'"]+$/.test(name) && name.length <= 100;
 
 // Function to validate the address
 const isValidAddress = (address) => /^[A-Za-z0-9\s,./-]+$/.test(address) && address.length <= 100;

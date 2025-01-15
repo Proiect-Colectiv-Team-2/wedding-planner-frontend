@@ -20,16 +20,12 @@ const ParticipantsManagement = () => {
     const [inviteMessage, setInviteMessage] = useState('');
     const [fileUploadMessage, setFileUploadMessage] = useState('');
     const [fileName, setFileName] = useState('Upload CSV');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEvent = async () => {
             try {
                 const eventData = await getEventById(id);
                 setEvent(eventData);
-                if (!isOrganizer(event)) {
-                    navigate(`/event/${event._id}`);
-                }
                 setParticipants(eventData.invitations || []);
             } catch (err) {
                 setError('Failed to fetch event participants.');
@@ -38,11 +34,10 @@ const ParticipantsManagement = () => {
             }
         };
         fetchEvent();
+
     }, [id]);
 
-    const isOrganizer = (event) => {
-        return currentUser.role === 'Organizer' && event.organizers.some(org => org._id === currentUser._id);
-    }
+
 
     console.log(event);
 
